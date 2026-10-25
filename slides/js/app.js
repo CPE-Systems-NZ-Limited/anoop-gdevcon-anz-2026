@@ -69,7 +69,7 @@
     controls: false,
     progress: true,
     slideNumber: false,
-    keyboard: true,
+    keyboard: { 76: function () { toggleLearnMore(); } },
     touch: true,
     mouseWheel: false,
     overview: true,
@@ -114,6 +114,68 @@
     Reveal.getRevealElement().focus && Reveal.getRevealElement().focus();
   });
 
+  var lmWrap = document.getElementById('learn-more');
+  var lmBtn = document.getElementById('learn-more-btn');
+  var lmPanel = document.getElementById('learn-more-panel');
+
+  function closeLearnMore() {
+    lmPanel.hidden = true;
+    lmBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleLearnMore() {
+    if (lmWrap.hidden) return;
+    var open = lmPanel.hidden;
+    lmPanel.hidden = !open;
+    lmBtn.setAttribute('aria-expanded', String(open));
+    if (open) { var first = lmPanel.querySelector('a'); if (first) first.focus(); }
+  }
+
+  // Each slide lists its links in a hidden .learn-more-links block; copy them into the overlay menu.
+  function updateLearnMore(slide) {
+    closeLearnMore();
+    lmPanel.textContent = '';
+    var links = slide ? slide.querySelectorAll('.learn-more-links a') : [];
+    Array.prototype.forEach.call(links, function (a) {
+      var item = document.createElement('a');
+      item.href = a.href;
+      item.textContent = a.textContent;
+      item.target = '_blank';
+      item.rel = 'noopener';
+      item.setAttribute('role', 'menuitem');
+      lmPanel.appendChild(item);
+    });
+    lmWrap.hidden = links.length === 0;
+  }
+
+  lmBtn.addEventListener('click', function (e) { e.stopPropagation(); toggleLearnMore(); });
+  lmPanel.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setTimeout(closeLearnMore, 0);
+  });
+  document.addEventListener('click', function (e) {
+    if (!lmPanel.hidden && !lmWrap.contains(e.target)) closeLearnMore();
+  });
+  // While the menu is open, Esc closes it (instead of reveal's overview) and
+  // arrow / Home / End keys move between its links (instead of changing slides).
+  document.addEventListener('keydown', function (e) {
+    if (lmPanel.hidden) return;
+    if (e.key === 'Escape') {
+      e.stopPropagation(); e.preventDefault(); closeLearnMore(); lmBtn.focus();
+      return;
+    }
+    var keys = ['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'Home', 'End'];
+    if (keys.indexOf(e.key) === -1 || !lmPanel.contains(document.activeElement)) return;
+    e.stopPropagation(); e.preventDefault();
+    var items = Array.prototype.slice.call(lmPanel.querySelectorAll('a'));
+    var i = items.indexOf(document.activeElement);
+    var last = items.length - 1;
+    if (e.key === 'Home') i = 0;
+    else if (e.key === 'End') i = last;
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') i = i >= last ? 0 : i + 1;
+    else i = i <= 0 ? last : i - 1;
+    if (items[i]) items[i].focus();
+  }, true);
+
   function update(event) {
     var slide = (event && event.currentSlide) || Reveal.getCurrentSlide();
     numEl.textContent = Reveal.getSlidePastCount() + 1;
@@ -121,6 +183,7 @@
     prevBtn.disabled = Reveal.isFirstSlide() && !Reveal.availableFragments().prev;
     nextBtn.disabled = Reveal.isLastSlide() && !Reveal.availableFragments().next;
     actEl.textContent = (slide && slide.getAttribute('data-act')) || '';
+    if (!event || event.type !== 'fragmentshown' && event.type !== 'fragmenthidden') updateLearnMore(slide);
     renderMermaid(slide);
   }
 

@@ -1,6 +1,6 @@
 # DevOps & Git for LabVIEW Development — GDevCon ANZ slides
 
-A 13-slide [reveal.js](https://revealjs.com) deck with [Mermaid](https://mermaid.js.org) diagrams. Every dependency
+A 16-slide [reveal.js](https://revealjs.com) deck with [Mermaid](https://mermaid.js.org) diagrams. Every dependency
 is vendored under `vendor/`, so the deck runs **100% offline**: no CDN, no web fonts, no build step.
 
 ## Run it
@@ -16,10 +16,12 @@ is vendored under `vendor/`, so the deck runs **100% offline**: no CDN, no web f
 
 ## Controls
 
-- `→` / `Space` / `PgDn` next · `←` / `PgUp` previous · `Esc` overview · `F` fullscreen · `S` speaker notes
+- `→` / `Space` / `PgDn` next · `←` / `PgUp` previous · `Esc` overview · `F` fullscreen · `S` speaker notes · `L` learn more
 - On-screen bar (bottom centre): previous · slide counter · next · overview · fullscreen. It fades out when idle and
   reappears on mouse/touch activity.
 - Jump to a slide with the URL hash, e.g. `index.html#/5`.
+- **Learn more** (top right): opens a menu of further-reading links for the current slide, in a new tab, for people
+  reading the deck after the talk. Links need internet; the rest of the deck stays offline.
 
 ## Embedding in LabVIEW (Web Browser control)
 
@@ -43,13 +45,15 @@ touches `slides/**` (or manually via *Actions → Deploy slides to GitHub Pages 
 One-time setup: **Settings → Pages → Build and deployment → Source: Deploy from a branch → `gh-pages` / `(root)`**.
 GitHub Pages on a private repository requires a paid GitHub plan.
 
-When hosted on `*.github.io`, the summary slide's repository link points at the hosting repo automatically;
+When hosted on `*.github.io`, the takeaways slide's repository link points at the hosting repo automatically;
 otherwise edit the `repo-link` anchor in `index.html`.
 
 ## Editing
 
 - Slides: `index.html` (one `<section>` per slide, speaker notes in `<aside class="notes">`).
 - Diagrams: `<pre class="mermaid">` blocks; rendered lazily when their slide is shown.
+- Learn-more links: a hidden `<div class="learn-more-links">` of `<a>` tags inside each `<section>`; the button only
+  appears on slides that have one.
 - Styling: `css/theme.css` · behaviour: `js/app.js`.
 - Update vendored libraries (needs Node + internet): `scripts/update-vendor.sh`
   (pin with `REVEAL_VERSION=5.2.1 MERMAID_VERSION=11.17.2`). Currently reveal.js 5.2.1, Mermaid 11.17.2.
