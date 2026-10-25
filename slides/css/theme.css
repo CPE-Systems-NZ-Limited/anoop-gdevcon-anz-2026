@@ -197,7 +197,9 @@ body.nav-active #learn-more-btn { opacity: 1; }
 
 /* ---------- Speaker-notes page (index.html?view=notes) ---------- */
 html.notes-view .reveal, html.notes-view .deck-nav, html.notes-view .act-label, html.notes-view .learn-more { display: none !important; }
-html.notes-view, html.notes-view body { height: auto; overflow: auto; background: var(--bg); color: var(--fg); }
+/* Only the viewport scrolls: a scrollable body would capture the sticky header. */
+html.notes-view { height: auto; overflow: auto; background: var(--bg); }
+html.notes-view body { height: auto; overflow: visible; background: var(--bg); color: var(--fg); }
 html.notes-view body { margin: 0; font: 400 18px/1.5 "Source Sans Pro", "Segoe UI", Helvetica, Arial, sans-serif; }
 .notes-page { max-width: 60em; margin: 0 auto; padding: 0 1em 40vh; }
 .notes-page a { color: var(--accent-2); }
