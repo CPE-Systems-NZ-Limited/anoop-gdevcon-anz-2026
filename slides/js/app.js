@@ -155,11 +155,25 @@
   document.addEventListener('click', function (e) {
     if (!lmPanel.hidden && !lmWrap.contains(e.target)) closeLearnMore();
   });
-  // Esc closes the menu instead of opening reveal's overview.
+  // While the menu is open, Esc closes it (instead of reveal's overview) and
+  // arrow / Home / End keys move between its links (instead of changing slides).
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !lmPanel.hidden) {
+    if (lmPanel.hidden) return;
+    if (e.key === 'Escape') {
       e.stopPropagation(); e.preventDefault(); closeLearnMore(); lmBtn.focus();
+      return;
     }
+    var keys = ['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'Home', 'End'];
+    if (keys.indexOf(e.key) === -1 || !lmPanel.contains(document.activeElement)) return;
+    e.stopPropagation(); e.preventDefault();
+    var items = Array.prototype.slice.call(lmPanel.querySelectorAll('a'));
+    var i = items.indexOf(document.activeElement);
+    var last = items.length - 1;
+    if (e.key === 'Home') i = 0;
+    else if (e.key === 'End') i = last;
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') i = i >= last ? 0 : i + 1;
+    else i = i <= 0 ? last : i - 1;
+    if (items[i]) items[i].focus();
   }, true);
 
   function update(event) {
