@@ -73,6 +73,8 @@
     touch: true,
     mouseWheel: false,
     overview: true,
+    // Keep the fixed, scaled stage at every size (small LabVIEW panels); never switch to scroll view.
+    scrollActivationWidth: null,
     transition: reduceMotion ? 'none' : 'slide',
     backgroundTransition: 'fade',
     plugins: window.RevealNotes ? [RevealNotes] : []
