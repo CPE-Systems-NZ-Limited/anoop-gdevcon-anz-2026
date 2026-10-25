@@ -139,6 +139,47 @@ html, body { height: 100%; margin: 0; overflow: hidden; background: var(--bg); }
   text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); opacity: 0.7; pointer-events: none;
 }
 
+/* Poll, checklist, people subtitles */
+.reveal .poll-q { margin-top: 1em; font-size: 0.8em; color: var(--muted); }
+.reveal ul.poll { list-style: none; margin: 0.3em 0 0; padding: 0; font-size: 0.9em; }
+.reveal ul.poll li { margin: 0.25em 0; }
+.reveal ul.checklist { list-style: none; margin: 0 auto; padding: 0; font-size: 0.8em; display: inline-block; text-align: left; }
+.reveal ul.checklist li { margin: 0.35em 0; padding-left: 1.4em; position: relative; }
+.reveal ul.checklist li::before {
+  content: ""; position: absolute; left: 0; top: 0.3em; width: 0.8em; height: 0.8em;
+  border: 2px solid var(--accent-2); border-radius: 0.15em;
+}
+.reveal .person small { display: block; font-size: 0.7em; color: var(--muted); }
+.reveal .cta.small-cta { font-size: 0.6em; color: var(--muted); }
+.reveal .learn-more-links { display: none !important; }
+
+/* "Learn more" links for each slide (outside the scaled stage, top-right) */
+.learn-more {
+  position: fixed; top: max(8px, env(safe-area-inset-top)); right: 10px; z-index: 45;
+  font: 600 clamp(11px, 1.5vmin, 14px)/1.2 system-ui, "Segoe UI", Roboto, sans-serif;
+}
+.learn-more[hidden] { display: none; }
+#learn-more-btn {
+  padding: 0.45em 0.9em; border-radius: 999px; cursor: pointer; font: inherit; color: var(--fg);
+  background: rgba(10, 14, 30, 0.55); border: 1px solid rgba(255, 210, 63, 0.45);
+  opacity: 0.6; transition: opacity 0.2s ease;
+}
+#learn-more-btn:hover, #learn-more-btn:focus-visible, #learn-more-btn[aria-expanded="true"],
+body.nav-active #learn-more-btn { opacity: 1; }
+#learn-more-btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 1px; }
+.learn-more-panel {
+  position: absolute; right: 0; top: calc(100% + 6px); min-width: 16em; max-width: min(26em, calc(100vw - 20px));
+  max-height: calc(100vh - 60px); overflow: auto; padding: 0.4em;
+  background: rgba(11, 16, 32, 0.97); border: 1px solid var(--card-border); border-radius: 0.6em;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.learn-more-panel[hidden] { display: none; }
+.learn-more-panel a {
+  display: block; padding: 0.5em 0.7em; border-radius: 0.4em; color: var(--fg); text-decoration: none; font-weight: 500;
+}
+.learn-more-panel a::after { content: " \2197"; color: var(--accent-2); }
+.learn-more-panel a:hover, .learn-more-panel a:focus-visible { background: rgba(255, 255, 255, 0.08); outline: none; }
+
 /* Small hosts (e.g. a LabVIEW Web Browser control on a front panel) */
 @media (max-width: 640px), (max-height: 420px) {
   .deck-nav button.secondary { display: none; }
@@ -151,5 +192,5 @@ html, body { height: 100%; margin: 0; overflow: hidden; background: var(--bg); }
 }
 
 @media print {
-  .deck-nav, .act-label { display: none !important; }
+  .deck-nav, .act-label, .learn-more { display: none !important; }
 }

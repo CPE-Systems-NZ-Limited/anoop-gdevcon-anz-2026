@@ -69,7 +69,7 @@
     controls: false,
     progress: true,
     slideNumber: false,
-    keyboard: true,
+    keyboard: { 76: function () { toggleLearnMore(); } },
     touch: true,
     mouseWheel: false,
     overview: true,
@@ -114,6 +114,54 @@
     Reveal.getRevealElement().focus && Reveal.getRevealElement().focus();
   });
 
+  var lmWrap = document.getElementById('learn-more');
+  var lmBtn = document.getElementById('learn-more-btn');
+  var lmPanel = document.getElementById('learn-more-panel');
+
+  function closeLearnMore() {
+    lmPanel.hidden = true;
+    lmBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleLearnMore() {
+    if (lmWrap.hidden) return;
+    var open = lmPanel.hidden;
+    lmPanel.hidden = !open;
+    lmBtn.setAttribute('aria-expanded', String(open));
+    if (open) { var first = lmPanel.querySelector('a'); if (first) first.focus(); }
+  }
+
+  // Each slide lists its links in a hidden .learn-more-links block; copy them into the overlay menu.
+  function updateLearnMore(slide) {
+    closeLearnMore();
+    lmPanel.textContent = '';
+    var links = slide ? slide.querySelectorAll('.learn-more-links a') : [];
+    Array.prototype.forEach.call(links, function (a) {
+      var item = document.createElement('a');
+      item.href = a.href;
+      item.textContent = a.textContent;
+      item.target = '_blank';
+      item.rel = 'noopener';
+      item.setAttribute('role', 'menuitem');
+      lmPanel.appendChild(item);
+    });
+    lmWrap.hidden = links.length === 0;
+  }
+
+  lmBtn.addEventListener('click', function (e) { e.stopPropagation(); toggleLearnMore(); });
+  lmPanel.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setTimeout(closeLearnMore, 0);
+  });
+  document.addEventListener('click', function (e) {
+    if (!lmPanel.hidden && !lmWrap.contains(e.target)) closeLearnMore();
+  });
+  // Esc closes the menu instead of opening reveal's overview.
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !lmPanel.hidden) {
+      e.stopPropagation(); e.preventDefault(); closeLearnMore(); lmBtn.focus();
+    }
+  }, true);
+
   function update(event) {
     var slide = (event && event.currentSlide) || Reveal.getCurrentSlide();
     numEl.textContent = Reveal.getSlidePastCount() + 1;
@@ -121,6 +169,7 @@
     prevBtn.disabled = Reveal.isFirstSlide() && !Reveal.availableFragments().prev;
     nextBtn.disabled = Reveal.isLastSlide() && !Reveal.availableFragments().next;
     actEl.textContent = (slide && slide.getAttribute('data-act')) || '';
+    if (!event || event.type !== 'fragmentshown' && event.type !== 'fragmenthidden') updateLearnMore(slide);
     renderMermaid(slide);
   }
 
