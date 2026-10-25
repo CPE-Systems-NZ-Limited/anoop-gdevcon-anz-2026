@@ -144,6 +144,11 @@ html, body { height: 100%; margin: 0; overflow: hidden; background: var(--bg); }
   .act-label { display: none; }
 }
 
+/* Very wide/short hosts: the stage is pillarboxed, so park the nav in the free right-hand gutter */
+@media (min-aspect-ratio: 2/1) {
+  .deck-nav { left: auto; right: 8px; transform: none; }
+}
+
 @media print {
   .deck-nav, .act-label { display: none !important; }
 }
