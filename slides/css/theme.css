@@ -1,0 +1,149 @@
+/* Deck theme layered on top of reveal.js "black". */
+:root {
+  --bg: #0b1020;
+  --bg-2: #121a33;
+  --fg: #e8ecf6;
+  --muted: #9aa6c4;
+  --accent: #f05033;      /* Git orange */
+  --accent-2: #ffd23f;    /* LabVIEW yellow */
+  --ok: #3ddc97;
+  --no: #ff6b6b;
+  --card: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --r-background-color: var(--bg);
+  --r-main-color: var(--fg);
+  --r-heading-color: #ffffff;
+  --r-link-color: var(--accent-2);
+  --r-link-color-hover: #ffe680;
+  --r-selection-background-color: var(--accent);
+  --r-main-font-size: 32px;
+  --r-heading-font-weight: 700;
+  --r-heading-text-transform: none;
+  --r-heading-letter-spacing: -0.01em;
+}
+
+html, body { height: 100%; margin: 0; overflow: hidden; background: var(--bg); }
+.reveal-viewport {
+  background: radial-gradient(ellipse at 20% 0%, #1b2550 0%, var(--bg) 60%) fixed;
+}
+
+.reveal .slides { text-align: left; }
+.reveal h1 { font-size: 2.4em; line-height: 1.1; }
+.reveal h2 { font-size: 1.6em; margin-bottom: 0.5em; }
+.reveal h2::after {
+  content: ""; display: block; width: 2.2em; height: 0.12em; margin-top: 0.25em;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 0.1em;
+}
+.reveal h3 { font-size: 0.95em; color: var(--accent-2); margin-bottom: 0.4em; }
+.reveal ul, .reveal ol { display: block; margin-left: 1.1em; }
+.reveal li { margin: 0.25em 0; line-height: 1.35; }
+.reveal code { font-family: ui-monospace, "Cascadia Code", Consolas, "Courier New", monospace; color: var(--accent-2); font-size: 0.9em; }
+.reveal .accent { color: var(--accent); }
+.reveal .lead { font-size: 1.05em; color: var(--muted); font-style: italic; margin: 0 0 0.6em; }
+.reveal .lead.small { font-size: 0.85em; font-style: normal; margin-top: -0.4em; }
+.reveal .caption { font-size: 0.55em; color: var(--muted); text-align: center; margin-top: 0.4em; }
+
+/* Title slides */
+.reveal .title-slide { text-align: center; }
+.reveal .title-slide h2::after { margin-left: auto; margin-right: auto; }
+.reveal .kicker { text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.6em; color: var(--accent-2); margin-bottom: 0.6em; }
+.reveal .subtitle { color: var(--muted); font-size: 0.9em; }
+.reveal .speaker { margin-top: 1.4em; font-size: 0.7em; color: var(--fg); opacity: 0.85; }
+
+/* Layout helpers */
+.reveal .grid-2, .reveal .grid-3 { display: grid; gap: 0.8em; }
+.reveal .grid-2 { grid-template-columns: 1fr 1fr; }
+.reveal .grid-3 { grid-template-columns: repeat(3, 1fr); }
+.reveal .align-center { align-items: center; }
+.reveal .card {
+  background: var(--card); border: 1px solid var(--card-border); border-radius: 0.4em;
+  padding: 0.6em 0.8em; font-size: 0.75em;
+}
+.reveal .card p { margin: 0; }
+.reveal .card.warn { border-color: rgba(240, 80, 51, 0.5); }
+.reveal .big-list li { font-size: 0.95em; margin: 0.45em 0; }
+.reveal .callout {
+  margin-top: 0.8em; padding: 0.5em 0.8em; font-size: 0.75em; border-left: 0.2em solid var(--accent);
+  background: rgba(240, 80, 51, 0.08); border-radius: 0 0.3em 0.3em 0;
+}
+.reveal .demo-tag {
+  display: inline-block; margin-top: 0.8em; padding: 0.15em 0.7em; font-size: 0.55em; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.15em; color: var(--bg); background: var(--accent-2); border-radius: 1em;
+}
+
+/* Comparison table */
+.reveal table.compare { width: 100%; font-size: 0.65em; border-collapse: collapse; }
+.reveal table.compare th, .reveal table.compare td { padding: 0.35em 0.6em; border-bottom: 1px solid var(--card-border); }
+.reveal table.compare th { color: var(--accent-2); }
+.reveal table.compare td:not(:first-child), .reveal table.compare th:not(:first-child) { text-align: center; }
+.reveal .ok { color: var(--ok); font-weight: 700; }
+.reveal .no { color: var(--no); font-weight: 700; }
+
+/* Code block */
+.reveal pre.code {
+  width: 100%; margin: 0; box-shadow: none; font-size: 0.55em; background: #060914;
+  border: 1px solid var(--card-border); border-radius: 0.4em;
+}
+.reveal pre.code code { display: block; padding: 0.8em 1em; max-height: none; color: #cfe3ff; line-height: 1.4; }
+
+/* Mermaid */
+.reveal .mermaid-wrap { display: flex; justify-content: center; }
+.reveal pre.mermaid {
+  margin: 0; width: 100%; box-shadow: none; background: transparent; font-size: 0.6em;
+  text-align: center; line-height: 1.2; color: transparent; /* hide source text until rendered */
+}
+.reveal pre.mermaid[data-processed="true"] { color: inherit; }
+.reveal pre.mermaid svg { max-width: 100%; height: auto; max-height: 440px; }
+.reveal .mermaid-wrap.wide pre.mermaid svg { max-height: 400px; }
+
+/* People */
+.reveal .people { margin-top: 0.6em; }
+.reveal .person { display: flex; align-items: center; gap: 0.6em; font-size: 0.85em; }
+.reveal .avatar {
+  display: inline-flex; align-items: center; justify-content: center; width: 2.2em; height: 2.2em;
+  border-radius: 50%; font-size: 0.7em; font-weight: 700; color: var(--bg);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+/* Summary */
+.reveal ol.summary { display: inline-block; text-align: left; font-size: 0.85em; }
+.reveal .cta { margin-top: 1em; font-size: 0.8em; }
+.reveal .cta a { font-weight: 700; }
+
+/* Progress bar */
+.reveal .progress { height: 4px; color: var(--accent); }
+
+/* On-screen navigation (outside the scaled slide canvas so it stays usable at any size) */
+.deck-nav {
+  position: fixed; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+  z-index: 40; display: flex; align-items: center; gap: 4px; padding: 4px 6px;
+  background: rgba(10, 14, 30, 0.55); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px;
+  font: 600 clamp(11px, 1.6vmin, 15px)/1 system-ui, "Segoe UI", Roboto, sans-serif; color: var(--fg);
+  opacity: 0.35; transition: opacity 0.2s ease; user-select: none; -webkit-user-select: none;
+}
+.deck-nav:hover, .deck-nav:focus-within, body.nav-active .deck-nav { opacity: 1; }
+.deck-nav button {
+  min-width: 2.2em; height: 2.2em; padding: 0 0.5em; border: 0; border-radius: 999px; cursor: pointer;
+  background: transparent; color: inherit; font: inherit; font-size: 1.2em; line-height: 1;
+}
+.deck-nav button.secondary { font-size: 1em; }
+.deck-nav button:hover { background: rgba(255, 255, 255, 0.12); }
+.deck-nav button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 1px; }
+.deck-nav button:disabled { opacity: 0.3; cursor: default; background: transparent; }
+.deck-progress { padding: 0 0.6em; font-variant-numeric: tabular-nums; color: var(--muted); }
+
+.act-label {
+  position: fixed; top: max(10px, env(safe-area-inset-top)); left: 14px; z-index: 30;
+  font: 600 clamp(9px, 1.3vmin, 13px)/1 system-ui, "Segoe UI", Roboto, sans-serif;
+  text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); opacity: 0.7; pointer-events: none;
+}
+
+/* Small hosts (e.g. a LabVIEW Web Browser control on a front panel) */
+@media (max-width: 640px), (max-height: 420px) {
+  .deck-nav button.secondary { display: none; }
+  .act-label { display: none; }
+}
+
+@media print {
+  .deck-nav, .act-label { display: none !important; }
+}
