@@ -42,6 +42,7 @@ html, body { height: 100%; margin: 0; overflow: hidden; background: var(--bg); }
 .reveal .lead { font-size: 1.05em; color: var(--muted); font-style: italic; margin: 0 0 0.6em; }
 .reveal .lead.small { font-size: 0.85em; font-style: normal; margin-top: -0.4em; }
 .reveal .caption { font-size: 0.55em; color: var(--muted); text-align: center; margin-top: 0.4em; }
+.reveal .caption.small-note { font-size: 0.45em; margin-top: 0.2em; opacity: 0.85; }
 
 /* Title slides */
 .reveal .title-slide { text-align: center; }

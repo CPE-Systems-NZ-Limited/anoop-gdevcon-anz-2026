@@ -133,12 +133,14 @@ gitGraph
   merge hotfix/1.1.1
 </pre>
       </div>
-      <p class="caption"><code>main</code> = what's deployed · <code>develop</code> = next release · <code>feature/*</code> = one change each · <code>hotfix/*</code> = urgent fixes</p>
+      <p class="caption"><code>feature/*</code> → <code>develop</code>: merge commit · <code>develop</code> → <code>main</code>: reviewed PR + tag <code>vX.Y.Z</code> · <code>hotfix/*</code> → <code>main</code> and <code>develop</code></p>
+      <p class="caption small-note">No direct commits to <code>main</code> · optional <code>bugfix/*</code> and <code>release/*</code> · at CPE the production branch is <code>master</code></p>
+      <aside class="notes">CPE standard: features branch from develop, stay narrow and short-lived, merge back with a merge commit and are deleted. develop must stay buildable. Production (master in our Azure DevOps repos, main on GitHub) is protected: PR with reviewer approval, no force pushes, every production merge tagged v&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;. Hotfixes branch from production and merge into both. release/* is optional.</aside>
     </section>
 
     <section data-act="Act II · Workflow">
       <h2>Graphical Git Clients</h2>
-      <div class="grid-2">
+      <div class="grid-3">
         <div class="card">
           <h3>SourceTree</h3>
           <ul>
@@ -155,8 +157,16 @@ gitGraph
             <li>Git Flow support built in</li>
           </ul>
         </div>
+        <div class="card">
+          <h3>TortoiseGit</h3>
+          <ul>
+            <li>Free, right-click menus in Windows Explorer</li>
+            <li>Familiar for TortoiseSVN users</li>
+            <li>Configurable diff / merge tools</li>
+          </ul>
+        </div>
       </div>
-      <p class="callout">Point both at <strong>LVCompare.exe</strong> and <strong>LVMerge.exe</strong> — VI diffs open in LabVIEW, not as unreadable bytes.</p>
+      <p class="callout">Point any of them at <strong>LVCompare.exe</strong> and <strong>LVMerge.exe</strong> — VI diffs open in LabVIEW, not as unreadable bytes.</p>
     </section>
 
     <!-- ===================== ACT III · TOOLING ===================== -->
@@ -168,7 +178,8 @@ gitGraph
             <li><strong>Separate compiled code</strong> from source — recompiles stop touching every VI</li>
             <li>Tell Git which files are binary</li>
             <li>Ignore generated files</li>
-            <li>Optional: Git LFS + locking for shared VIs</li>
+            <li>Large build outputs and archives go to Git LFS</li>
+            <li>Optional: LFS locking for shared VIs</li>
           </ul>
         </div>
         <div>
@@ -178,6 +189,10 @@ gitGraph
 *.ctl  binary
 *.ctt  binary
 *.vim  binary
+
+# Git LFS (CPE repo template)
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
 
 # .gitignore
 *.aliases
@@ -228,13 +243,14 @@ builds/</code></pre>
     <!-- ===================== ACT IV · PRACTICE ===================== -->
     <section data-act="Act IV · In Practice">
       <h2>Lessons from CPE Systems NZ</h2>
-      <p class="lead small">Running many LabVIEW projects in parallel</p>
+      <p class="lead small">SVN → Azure DevOps Git for a large industrial test-equipment customer</p>
       <div class="grid-3">
-        <div class="card"><h3>Standardise</h3><p>One template repo: <code>.gitignore</code>, <code>.gitattributes</code>, folder layout</p></div>
-        <div class="card"><h3>Protect</h3><p>Branch protection on <code>main</code>; every merge goes through review</p></div>
-        <div class="card"><h3>Trace</h3><p>Tag every release; match tags to built EXE versions</p></div>
+        <div class="card"><h3>50 repos</h3><p>23 hardware · 26 software · 1 shared library, migrated in January 2026</p></div>
+        <div class="card"><h3>4 super-repos</h3><p>Git submodules group components into deployable test systems</p></div>
+        <div class="card"><h3>History kept</h3><p>SVN authors mapped to Git identities, so history stays traceable</p></div>
       </div>
-      <aside class="notes">Replace / extend with real project stories and numbers.</aside>
+      <p class="callout">Pilot one repo first, then batch · protected <code>master</code>: every change through a reviewed PR</p>
+      <aside class="notes">Customer anonymised on purpose (public repo). Phased rollout: one simple repo, then a complex one, then a super-repo, then batch. Author mapping with a default fallback for unknown users, iterated over several rounds. Software repos: PCBA firmware, TestStand sequences, rack software, deployment code. Submodules use relative URLs; every super-repo has a README explaining its structure. Team guides cover Git for SVN users plus SourceTree, TortoiseGit and GitKraken.</aside>
     </section>
 
     <section data-act="Act IV · In Practice">
@@ -256,6 +272,7 @@ builds/</code></pre>
         <li>Git Flow: <code>main</code> → <code>develop</code> → <code>feature/*</code></li>
         <li>Use a graphical client + LVCompare / LVMerge</li>
         <li>LabVIEW 2025 Q1 &amp; TestStand 2025 make it easier than ever</li>
+        <li>Proven at CPE: 50 SVN repos moved to Git</li>
       </ol>
       <p class="cta">Slides &amp; examples on GitHub<br><a id="repo-link" href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026</a></p>
       <p class="speaker">Thank you · Questions?</p>
