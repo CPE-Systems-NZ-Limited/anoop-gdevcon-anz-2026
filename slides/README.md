@@ -22,6 +22,27 @@ is vendored under `vendor/`, so the deck runs **100% offline**: no CDN, no web f
 - Jump to a slide with the URL hash, e.g. `index.html#/5`.
 - **Learn more** (top right): opens a menu of further-reading links for the current slide, in a new tab, for people
   reading the deck after the talk. Links need internet; the rest of the deck stays offline.
+- **Speaker notes** (notes button in the bar, or `notes.html` / `index.html?view=notes`): one public page with every
+  slide's notes and Learn more links. It highlights and scrolls to the slide the deck is showing; untick *Follow the
+  slides* to read ahead without being moved. `S` still opens reveal's built-in speaker view.
+
+## Speaker notes in a second LabVIEW window
+
+Notes live in each slide's `<aside class="notes">` in `index.html`; the notes page is built from them, so there is
+only one copy to edit. Run two WebBrowser controls: one on `index.html` (the deck), one on `index.html?view=notes`.
+The notes page follows the deck in two ways; use whichever works in your setup.
+
+1. **Automatic (pages talk to each other).** The deck broadcasts its slide number through browser storage and the
+   notes page listens. Needs both controls to load from the same place (both from disk, or both from the same
+   server) and to share LabVIEW's browser storage. Same mechanism keeps two normal browser tabs in step.
+2. **LabVIEW relays the slide number.** In a loop (e.g. every 200 ms), call the WebBrowser control's
+   *Execute JavaScript* method:
+   - on the **deck** control, with *Wait for Return Value?* = TRUE:
+     `return Reveal.getIndices().h;` → returns the 0-based slide number as a string;
+   - when that value changes, on the **notes** control, passing the value as *Arg*:
+     `return showSlide(Arg);` → highlights and scrolls to that slide (returns `true` if the slide exists).
+
+   This only uses documented control methods, so it works from disk or from GitHub Pages.
 
 ## Embedding in LabVIEW (Web Browser control)
 

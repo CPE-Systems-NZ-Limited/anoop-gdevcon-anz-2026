@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  // index.html?view=notes renders the speaker-notes page instead (js/notes-view.js).
+  if (document.documentElement.classList.contains('notes-view')) return;
+
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // When served from GitHub Pages, point the call-to-action at the hosting repo automatically.
@@ -108,6 +111,7 @@
       case 'next': Reveal.next(); break;
       case 'overview': Reveal.toggleOverview(); break;
       case 'fullscreen': toggleFullscreen(); break;
+      case 'notes': window.open('index.html?view=notes#/' + (Reveal.getIndices().h || ''), 'gdevcon-notes'); break;
     }
     // Hand focus back to the deck so Space / arrow keys keep working after a click.
     btn.blur();
@@ -176,6 +180,21 @@
     if (items[i]) items[i].focus();
   }, true);
 
+  // Tell an open speaker-notes page (same browser) which slide is showing.
+  var SYNC_KEY = 'gdevcon-deck-slide';
+  var syncChannel = null;
+  try { syncChannel = new BroadcastChannel(SYNC_KEY); } catch (e) { /* not available; localStorage still works */ }
+  var lastPublished = null;
+
+  function publishSlide() {
+    var h = Reveal.getIndices().h;
+    if (h === lastPublished) return;
+    lastPublished = h;
+    var msg = { h: h, t: Date.now() };
+    try { if (syncChannel) syncChannel.postMessage(msg); } catch (e) { /* ignore */ }
+    try { window.localStorage.setItem(SYNC_KEY, JSON.stringify(msg)); } catch (e) { /* storage disabled */ }
+  }
+
   function update(event) {
     var slide = (event && event.currentSlide) || Reveal.getCurrentSlide();
     numEl.textContent = Reveal.getSlidePastCount() + 1;
@@ -185,6 +204,7 @@
     actEl.textContent = (slide && slide.getAttribute('data-act')) || '';
     if (!event || event.type !== 'fragmentshown' && event.type !== 'fragmenthidden') updateLearnMore(slide);
     renderMermaid(slide);
+    publishSlide();
   }
 
   Reveal.on('ready', update);
