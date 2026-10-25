@@ -12,7 +12,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cards = [];
   var current = -1;
-  var followBox, statusEl;
+  var followBox, statusEl, barEl;
 
   function el(tag, className, text) {
     var node = document.createElement(tag);
@@ -36,7 +36,7 @@
     var total = sections.length;
     var page = el('main', 'notes-page');
 
-    var bar = el('header', 'notes-bar');
+    var bar = barEl = el('header', 'notes-bar');
     var titles = el('div', 'notes-titles');
     titles.appendChild(el('h1', null, 'Speaker notes'));
     titles.appendChild(el('p', null, 'DevOps & Git for LabVIEW Development · Anoop Nandakumar · GDevCon ANZ'));
@@ -120,6 +120,8 @@
     statusEl.textContent = 'Slide ' + (i + 1) + ' / ' + cards.length;
     if (window.history.replaceState) window.history.replaceState(null, '', '#/' + (i ? i : ''));
     if (!followBox || followBox.checked) {
+      // The sticky header wraps on narrow windows, so offset by its actual height.
+      cards[i].style.scrollMarginTop = (barEl.offsetHeight + 8) + 'px';
       cards[i].scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
     }
     return true;
