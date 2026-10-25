@@ -194,3 +194,41 @@ body.nav-active #learn-more-btn { opacity: 1; }
 @media print {
   .deck-nav, .act-label, .learn-more { display: none !important; }
 }
+
+/* ---------- Speaker-notes page (index.html?view=notes) ---------- */
+html.notes-view .reveal, html.notes-view .deck-nav, html.notes-view .act-label, html.notes-view .learn-more { display: none !important; }
+html.notes-view, html.notes-view body { height: auto; overflow: auto; background: var(--bg); color: var(--fg); }
+html.notes-view body { margin: 0; font: 400 18px/1.5 "Source Sans Pro", "Segoe UI", Helvetica, Arial, sans-serif; }
+.notes-page { max-width: 60em; margin: 0 auto; padding: 0 1em 40vh; }
+.notes-page a { color: var(--accent-2); }
+.notes-bar {
+  position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5em 1em; padding: 0.6em 0; background: var(--bg); border-bottom: 1px solid var(--card-border);
+}
+.notes-titles h1 { margin: 0; font-size: 1.3em; color: #fff; }
+.notes-titles p { margin: 0; font-size: 0.85em; color: var(--muted); }
+.notes-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4em 1.2em; font-size: 0.9em; }
+.notes-status { color: var(--accent-2); font-weight: 600; }
+.notes-follow { cursor: pointer; }
+.notes-card {
+  margin: 1em 0; padding: 0.8em 1.1em; scroll-margin-top: 5em;
+  background: var(--card); border: 1px solid var(--card-border); border-left: 4px solid transparent; border-radius: 0.5em;
+}
+.notes-card.current { border-left-color: var(--accent-2); background: rgba(255, 210, 63, 0.07); }
+.notes-card-head { display: flex; gap: 1em; font-size: 0.8em; color: var(--muted); }
+.notes-num { font-weight: 600; font-variant-numeric: tabular-nums; }
+.notes-card h2 { margin: 0.15em 0 0.4em; font-size: 1.25em; line-height: 1.25; }
+.notes-card h2 a { color: #fff; text-decoration: none; }
+.notes-card h2 a:hover { text-decoration: underline; }
+.notes-card h3 { margin: 0.8em 0 0.2em; font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.notes-body p { margin: 0.4em 0; }
+.notes-empty { color: var(--muted); font-style: italic; }
+.notes-links { margin: 0; padding-left: 1.2em; }
+@media print {
+  html.notes-view, html.notes-view body { background: #fff; color: #000; }
+  .notes-bar { position: static; }
+  .notes-tools { display: none; }
+  .notes-card { break-inside: avoid; background: none; border: 1px solid #999; }
+  .notes-card h2 a, .notes-titles h1 { color: #000; }
+  .notes-page a { color: #000; }
+}
