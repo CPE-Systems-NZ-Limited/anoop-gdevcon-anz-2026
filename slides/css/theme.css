@@ -248,6 +248,12 @@ html.notes-view body { margin: 0; font: 400 18px/1.5 "Source Sans Pro", "Segoe U
 .reveal .brand-logos { display: flex; justify-content: center; align-items: center; gap: 1.2em; margin-top: 1.3em; }
 .reveal .brand-logos img { height: 2.4em; width: auto; border-radius: 0.2em; }
 
+/* Title/closing slides: 2/3 text + 1/3 logos, like the case-study decks */
+.reveal .split { display: grid; grid-template-columns: 2fr 1fr; gap: 1.6em; align-items: center; text-align: left; width: 100%; }
+.reveal .split .brand-logos { flex-direction: column; gap: 0.9em; margin-top: 0; }
+.reveal .split .brand-logos img { width: 100%; height: auto; border-radius: 0.25em; }
+.reveal .title-slide .split h2::after { margin-left: 0; margin-right: 0; }
+
 /* Card header icons */
 .reveal .card h3 .icon { width: 1em; height: 1em; margin-right: 0.35em; vertical-align: -0.16em; }
 
