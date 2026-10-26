@@ -23,6 +23,10 @@
       <h1>DevOps &amp; Git<br><span class="accent">for LabVIEW Development</span></h1>
       <p class="subtitle">Building Right, Scaling Small</p>
       <p class="speaker">Anoop Nandakumar · CPE Systems NZ</p>
+      <div class="brand-logos">
+        <img src="img/cpe-logo.png" alt="CPE Systems NZ">
+        <img src="img/gdevcon-anz.png" alt="GDevCon ANZ">
+      </div>
       <aside class="notes">Post-lunch slot: get people moving early. Point out that this deck is running live inside a LabVIEW Web Browser Front Panel Control (demo_Web Browser Front Panel Control.vi).</aside>
       <div class="learn-more-links" hidden>
         <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: slides &amp; demos (GitHub)</a>
@@ -72,7 +76,7 @@
       <h2>SVN / No SCC: A Ticking Time Bomb</h2>
       <div class="grid-2">
         <div class="card warn">
-          <h3>Security &amp; resilience</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l5 2v4.2c0 3.4-2.3 5.8-5 6.8-2.7-1-5-3.4-5-6.8V3.5l5-2z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Security &amp; resilience</h3>
           <ul>
             <li>One central server: SVN offline = whole team blocked</li>
             <li>"Code on a shared drive" has no audit trail</li>
@@ -81,7 +85,7 @@
           </ul>
         </div>
         <div class="card warn">
-          <h3>The AI era</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 1L4.5 9h3l-1 6 5-8h-3l1-6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>The AI era</h3>
           <ul>
             <li>AI writes code fast — review has to keep up</li>
             <li>AI assistants, CI/CD and review tools are Git-native</li>
@@ -190,7 +194,7 @@ gitGraph
       <p class="lead small">You don't need a command line to be a DevOps engineer</p>
       <div class="grid-3">
         <div class="card">
-          <h3>SourceTree</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="4.5" cy="12" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="11.5" cy="6" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 5.6v4.8M11.5 7.6c0 2-2.8 2.8-5.4 2.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>SourceTree</h3>
           <ul>
             <li>Free (Atlassian)</li>
             <li>Built-in Git Flow buttons</li>
@@ -198,7 +202,7 @@ gitGraph
           </ul>
         </div>
         <div class="card">
-          <h3>GitKraken</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l6 3-6 3-6-3 6-3zM2.5 8.5L8 11.5l5.5-3M2.5 11.5L8 14.5l5.5-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>GitKraken</h3>
           <ul>
             <li>Visual commit graph</li>
             <li>Drag-and-drop merge / rebase</li>
@@ -206,7 +210,7 @@ gitGraph
           </ul>
         </div>
         <div class="card warn">
-          <h3>TortoiseGit</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 10.5a4.5 4.5 0 0 1 9 0v1h-9v-1zM8 6v4.5M5.5 7v3.5M10.5 7v3.5M2.5 12.5h11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>TortoiseGit</h3>
           <ul>
             <li>Free, right-click menus in Windows Explorer</li>
             <li>Familiar for TortoiseSVN users</li>
@@ -265,7 +269,7 @@ builds/</code></pre>
       <p class="lead small">LabVIEW 2025 Q1 compare improvements · 2025 Q3 comparison reports from the CLI</p>
       <div class="grid-2">
         <div class="card">
-          <h3>Review a PR locally</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8s2.5-4.5 6.5-4.5S14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Review a PR locally</h3>
           <ul>
             <li>Front panel &amp; block diagram side by side</li>
             <li>Step through each highlighted change</li>
@@ -273,7 +277,7 @@ builds/</code></pre>
           </ul>
         </div>
         <div class="card">
-          <h3>Put it on the PR</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10.5V3M5 6l3-3 3 3M2.5 10.5v3h11v-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Put it on the PR</h3>
           <ul>
             <li>PR web pages can't render a VI diff</li>
             <li>Generate a comparison report from the LabVIEW CLI</li>
@@ -312,9 +316,9 @@ builds/</code></pre>
       <h2>Scaling for Systems Integrators</h2>
       <p class="lead small">Lessons from CPE Systems NZ · SVN → Azure DevOps Git for a large industrial test-equipment customer</p>
       <div class="grid-3">
-        <div class="card"><h3>50 repos</h3><p>23 hardware · 26 software · 1 shared library, migrated in January 2026</p></div>
-        <div class="card"><h3>4 super-repos</h3><p>Git submodules group components into deployable test systems</p></div>
-        <div class="card"><h3>History kept</h3><p>SVN authors mapped to Git identities, so history stays traceable</p></div>
+        <div class="card"><h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="2" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="5.5" y="9" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>50 repos</h3><p>23 hardware · 26 software · 1 shared library, migrated in January 2026</p></div>
+        <div class="card"><h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="5.5" y="5.5" width="5" height="5" rx="0.8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>4 super-repos</h3><p>Git submodules group components into deployable test systems</p></div>
+        <div class="card"><h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.8V8l2.6 1.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>History kept</h3><p>SVN authors mapped to Git identities, so history stays traceable</p></div>
       </div>
       <p class="callout">One template for every repo · access limited per customer project · pilot first, then batch · protected <code>master</code></p>
       <aside class="notes">Customer anonymised on purpose (public repo). Dozens of customer repos: same template (.gitignore, .gitattributes with LFS, folder layout) everywhere. Repository access is limited per project, and external collaborators get guest access. Phased rollout: one simple repo, then a complex one, then a super-repo, then batch. Author mapping with a default fallback, iterated over several rounds. Submodules use relative URLs; every super-repo has a README.</aside>
@@ -329,15 +333,15 @@ builds/</code></pre>
       <h2>The Meta-Demo: Presenting Inside LabVIEW</h2>
       <div class="grid-3">
         <div class="card">
-          <h3>LabVIEW Demo Station</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2.5" width="12" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 10.5v2.2M5.5 14h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>LabVIEW Demo Station</h3>
           <p>Darren Nattinger's plugin-based demo framework — each demo is a <code>demo_</code> / <code>try_</code> VI pair</p>
         </div>
         <div class="card">
-          <h3>Web Browser Front Panel Control</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 5.5h12" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="9.5" r="2.3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Web Browser Front Panel Control</h3>
           <p>LabVIEW 2026 Q1 control drives these slides — locally from disk, or from GitHub Pages</p>
         </div>
         <div class="card">
-          <h3>Git in action</h3>
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="4.5" cy="12" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="11.5" cy="6" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 5.6v4.8M11.5 7.6c0 2-2.8 2.8-5.4 2.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Git in action</h3>
           <p>Clean <code>.gitignore</code>, then switch branches in SourceTree / GitKraken and watch the deck change</p>
         </div>
       </div>
@@ -428,6 +432,10 @@ builds/</code></pre>
       <p class="subtitle">Thank you</p>
       <p class="speaker">Anoop Nandakumar · CPE Systems NZ</p>
       <p class="cta small-cta">github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026</p>
+      <div class="brand-logos">
+        <img src="img/cpe-logo.png" alt="CPE Systems NZ">
+        <img src="img/gdevcon-anz.png" alt="GDevCon ANZ">
+      </div>
       <div class="learn-more-links" hidden>
         <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo on GitHub</a>
       </div>
@@ -449,6 +457,7 @@ builds/</code></pre>
   <button type="button" id="learn-more-btn" aria-expanded="false" aria-controls="learn-more-panel" title="Learn more (L)">Learn more <span aria-hidden="true">&#8599;</span></button>
   <div class="learn-more-panel" id="learn-more-panel" role="menu" hidden></div>
 </div>
+<img class="cpe-mark" id="cpe-mark" src="img/cpe-logo.png" alt="CPE Systems NZ">
 
 <script src="vendor/reveal/reveal.js"></script>
 <script src="vendor/reveal/plugin/notes/notes.js"></script>
