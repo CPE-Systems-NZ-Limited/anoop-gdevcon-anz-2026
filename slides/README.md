@@ -35,14 +35,13 @@ The notes page follows the deck in two ways; use whichever works in your setup.
 1. **Automatic (pages talk to each other).** The deck broadcasts its slide number through browser storage and the
    notes page listens. Needs both controls to load from the same place (both from disk, or both from the same
    server) and to share LabVIEW's browser storage. Same mechanism keeps two normal browser tabs in step.
-2. **LabVIEW relays the slide number.** In a loop (e.g. every 200 ms), call the WebBrowser control's
-   *Execute JavaScript* method:
-   - on the **deck** control, with *Wait for Return Value?* = TRUE:
-     `return Reveal.getIndices().h;` → returns the 0-based slide number as a string;
-   - when that value changes, on the **notes** control, passing the value as *Arg*:
-     `return showSlide(Arg);` → highlights and scrolls to that slide (returns `true` if the slide exists).
+2. **LabVIEW relays the slide number.** In a loop (e.g. every 200 ms), use the WebBrowser control's *Execute JavaScript* method:
+   - on the **deck** control, with *Wait for Return Value?* = TRUE, run `Reveal.getIndices().h`
+     (if nothing comes back, try `return Reveal.getIndices().h;`). The result is the 0-based slide number.
+   - when the number changes, build the string `showSlide(` + number + `)` and run it on the **notes** control.
+     The notes page highlights that slide and scrolls to it.
 
-   This only uses documented control methods, so it works from disk or from GitHub Pages.
+   This only uses documented control methods, so it works from disk or from GitHub Pages. Not yet verified in LabVIEW.
 
 ## Embedding in LabVIEW (Web Browser control)
 
