@@ -353,13 +353,56 @@ builds/</code></pre>
     <section data-act="Part 4 · Real World">
       <h2>Community Shoulders to Stand On</h2>
       <p class="lead small">GDevCon peers worth following up</p>
-      <div class="grid-2 people">
-        <div class="person"><span class="avatar">NN</span><span>Niko Nedved-Rainer<small>NuGet &amp; Azure DevOps</small></span></div>
-        <div class="person"><span class="avatar">SM</span><span>Scott Melin<small>YAML pipelines</small></span></div>
-        <div class="person"><span class="avatar">GP</span><span>Greg Payne<small>Git submodules</small></span></div>
-        <div class="person"><span class="avatar">PC</span><span>Pranay Chandragiri<small>Containerised CI/CD · GDevCon ANZ #3</small></span></div>
+      <div class="grid-2 talks">
+        <div class="talk"><img src="img/gdevcon-eur.png" alt="GDevCon"><div><strong>Scott Melin</strong> · Orbion Space Technology<br><em>DevOps and LabVIEW: We shouldn't, but we did, and you can too!</em> <small>GDevCon#5</small><br><span>Azure DevOps YAML pipelines build &amp; deploy LabVIEW for space hardware</span></div></div>
+        <div class="talk"><img src="img/gdevcon-eur.png" alt="GDevCon"><div><strong>Niko Naredi Rainer</strong> · Zühlke Engineering<br><em>LabVIEW on Azure DevOps: Using One Platform for Your Pipeline</em> <small>GDevCon#5</small><br><span>NuGet packages, Caraya tests &amp; VI Analyzer in one Azure DevOps pipeline</span></div></div>
+        <div class="talk"><img src="img/gdevcon-eur.png" alt="GDevCon"><div><strong>Greg Payne</strong><br><em>Git Submodules: An Alternative Approach to Code Reuse</em> <small>GDevCon#2</small><br><span>Project-local library versions with Git submodules</span></div></div>
+        <div class="talk"><img src="img/gdevcon-anz.png" alt="GDevCon ANZ"><div><strong>Pranay Chandragiri</strong> · Soliton Technologies<br><em>Modernizing LabVIEW CI/CD with Containers: From Desktop to Pipeline</em> <small>GDevCon ANZ #3</small><br><span>NI's headless LabVIEW container images + LabVIEWCLI in GitHub Actions</span></div></div>
       </div>
-      <aside class="notes">TODO: add each person's talk title / recording link here and to Learn more.</aside>
+      <aside class="notes">
+        <p><strong>Scott Melin, Orbion Space Technology (GDevCon#5).</strong> Small team, near-100% reliability for space hardware, so they needed controlled versioning and automated deployment to production machines (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=0s">0:00</a>).</p>
+        <ul>
+          <li>Azure DevOps for repos, YAML build pipelines and versioned executables (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=318s">5:18</a>).</li>
+          <li>Self-hosted build VMs, VIPM for configuration, LabVIEW CLI for builds (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=572s">9:32</a>).</li>
+          <li>Hurdles: path errors in project files, build-time permissions, making sure LabVIEW is open before CLI calls (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=1230s">20:30</a>).</li>
+          <li>Nested Azure permissions for agents, feeds and pipelines (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=1597s">26:37</a>).</li>
+          <li>Result: shorter development time and traceable software versions across the production floor.</li>
+        </ul>
+        <p><strong>Niko Naredi Rainer, Zühlke Engineering (GDevCon#5).</strong> A DevOps mindset improves LabVIEW code quality despite dependency-management pain (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=216s">3:36</a>).</p>
+        <ul>
+          <li>Three parts: developer PC, Azure DevOps, self-hosted agent (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=633s">10:33</a>).</li>
+          <li>CI: Caraya unit tests, VI Analyzer, packed-library builds, each wrapped in PowerShell you can run locally first (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=780s">13:00</a>).</li>
+          <li>Dependencies: packed libraries as NuGet packages in Azure Artifacts instead of VIPM (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=975s">16:15</a>).</li>
+          <li>Public example project (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1338s">22:18</a>).</li>
+          <li>Tips: run the agent interactively during setup to catch pop-ups (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1451s">24:11</a>); agree on templates and structure (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1528s">25:28</a>); prefer James McNally's G CLI over the LabVIEW CLI (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1597s">26:37</a>).</li>
+          <li>NI still needs better native support here (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1728s">28:48</a>).</li>
+        </ul>
+        <p><strong>Greg Payne (GDevCon#2).</strong> Git submodules as a portable approach to code reuse (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=0s">0:00</a>).</p>
+        <ul>
+          <li>A submodule is a nested repo; the parent tracks only a commit hash (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=195s">3:15</a>).</li>
+          <li>He avoids recursive submodules because of LabVIEW memory/file handling (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=324s">5:24</a>).</li>
+          <li>Different projects can use different library versions on one machine (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=809s">13:29</a>).</li>
+          <li>His LabVIEW project-provider add-on manages submodules from the IDE (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=1000s">16:40</a>).</li>
+          <li>Keep code apart from compiled binaries; add a README per submodule (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=1448s">24:08</a>).</li>
+          <li>Tie-in: CPE's 4 super-repos use the same idea.</li>
+        </ul>
+        <p><strong>Pranay Chandragiri, Soliton Technologies (GDevCon ANZ #3).</strong> Heavy VMs slow LabVIEW CI/CD down; containers fix that.</p>
+        <ul>
+          <li>Containers vs VMs from first principles.</li>
+          <li>NI's official headless LabVIEW images from Docker Hub: mount the VI source and run LabVIEWCLI for Mass Compile, VI Analyzer and unit tests, with no GUI or licensed workstation in the loop.</li>
+          <li>Wired into GitHub Actions: a full CI workflow live in under 15 minutes.</li>
+          <li>Custom images with the project's exact dependencies.</li>
+          <li>Best practice: clean volume mounts, version-controlled images, pipelines that fail fast and report clearly.</li>
+          <li>Pointer: "see Pranay's talk for the container side of this".</li>
+        </ul>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.youtube.com/watch?v=ULDfoYiwnro">Scott Melin: DevOps and LabVIEW (video)</a>
+        <a href="https://www.youtube.com/watch?v=AU-06R5b85Y">Niko Naredi Rainer: LabVIEW on Azure DevOps (video)</a>
+        <a href="https://www.youtube.com/watch?v=iv7WwDgyb0U">Greg Payne: Git Submodules (video)</a>
+        <a href="https://discord.com/channels/1177504067635908608/1558057302269890571">Pranay Chandragiri: talk channel (GDevCon Discord)</a>
+        <a href="https://www.solitontech.com/">Soliton Technologies</a>
+      </div>
     </section>
 
     <!-- ===================== PART 5 · WRAP-UP ===================== -->
