@@ -260,3 +260,16 @@ html.notes-view body { margin: 0; font: 400 18px/1.5 "Source Sans Pro", "Segoe U
 /* Small CPE mark top-right; parked left of the Learn more button */
 .cpe-mark { position: fixed; top: 13px; right: 118px; height: 26px; width: auto; z-index: 30; opacity: 0.9; }
 .cpe-mark[hidden] { display: none; }
+
+.reveal ol.presenter-timeline { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; margin: 1em 0 0; padding: 0; gap: 0.6em; }
+.reveal .presenter-timeline li { border-top: 3px solid var(--accent); padding-top: 0.4em; margin: 0; }
+.reveal .presenter-timeline strong { display: block; color: var(--accent-2); font-size: 1.1em; }
+.reveal .presenter-timeline span { display: block; font-size: 0.65em; line-height: 1.4; margin-top: 0.4em; }
+.reveal .presenter-badges { display: flex; justify-content: flex-end; gap: 1em; margin-top: 0.6em; }
+.reveal .presenter-badges img { height: 120px; width: auto; max-width: 240px; object-fit: contain; margin: 0; }
+.reveal .workflow-map { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.35em; align-items: stretch; margin-top: 1em; }
+.reveal .workflow-map .card { font-size: 0.65em; }
+.reveal .workflow-focus { border-color: var(--accent); background: rgba(240, 80, 51, 0.08); }
+.reveal .workflow-arrow { align-self: center; color: var(--accent); }
+.reveal .workflow-tools { color: var(--muted); font-size: 0.85em; padding-top: 0.8em; }
+.reveal .workflow-feedback { text-align: center; color: var(--muted); font-size: 0.55em; margin-top: 0.7em; }

@@ -21,7 +21,7 @@
     <section class="title-slide" data-act="Part 1 · The Binary Myth">
       <div class="split">
         <div class="split-main">
-          <p class="kicker">GDevCon ANZ #3 · September 2026</p>
+          <p class="kicker">GDevCon ANZ #3 · 28 October 2026</p>
           <h1>DevOps &amp; Git<br><span class="accent">for LabVIEW Development</span></h1>
           <p class="subtitle">Building Right, Scaling Small</p>
           <p class="speaker">Anoop Nandakumar · CPE Systems NZ</p>
@@ -31,10 +31,75 @@
           <img src="img/gdevcon-anz.png" alt="GDevCon ANZ">
         </div>
       </div>
-      <aside class="notes"><p><strong>Opening — show of hands:</strong> Who has ever fixed the same bug twice because the earlier fix went missing? Pause, acknowledge the hands, and connect this to a familiar problem rather than a new tool.</p><p><strong>Audience thought:</strong> I'm comfortable with what I'm doing. Why change? This is about making changes recoverable, understandable and safe to share, not telling experienced developers to start again. If this feels like another tool to learn, or something you have already tried, your existing experience still matters.</p><p><strong>Workflow foundations:</strong> Plan and track requirements, work items and defects in GitHub Issues/Projects, Jira or Azure Boards. Version and review changes with Git, hosted on GitHub, GitLab or Azure Repos. Build, test and deliver with CI/CD. Link requirements to changes, tests, releases and security fixes. Git is the version-control system; GitHub is a hosting and collaboration platform, not a synonym for Git. DevOps is the connected working practice, not just a pipeline. Refer to Pranay's talk for containers; we will focus on the foundations beneath it.</p><p><strong>Bridge:</strong> First, let's address the concern graphical developers often have about version control.</p>Post-lunch slot: get people moving early. Point out that this deck is running live inside a LabVIEW Web Browser Front Panel Control (demo_Web Browser Front Panel Control.vi).</aside>
+      <aside class="notes"><p><strong>Opening — show of hands:</strong> Who has ever fixed the same bug twice because the earlier fix went missing? Pause, acknowledge the hands, and connect this to a familiar problem rather than a new tool.</p><p><strong>Audience thought:</strong> I'm comfortable with what I'm doing. Why change? This is about making changes recoverable, understandable and safe to share, not telling experienced developers to start again. If this feels like another tool to learn, or something you have already tried, your existing experience still matters.</p><p><strong>Bridge:</strong> First, a little context on the experience behind this presentation.</p>Post-lunch slot: get people moving early. Point out that this deck is running live inside a LabVIEW Web Browser Front Panel Control (demo_Web Browser Front Panel Control.vi).</aside>
       <div class="learn-more-links" hidden>
         <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: slides &amp; demos (GitHub)</a>
         <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026/tree/develop/slides">How these slides run offline &amp; inside LabVIEW</a>
+      </div>
+    </section>
+
+    <section data-act="Introduction · Context">
+      <h2>About the Presenter</h2>
+      <p class="lead small">Anoop Nandakumar · CPE Systems NZ</p>
+      <ol class="presenter-timeline" aria-label="Experience timeline">
+        <li><strong>2011</strong><span>Introduced to<br>LabVIEW</span></li>
+        <li><strong>2014</strong><span>Joined<br>CPE Systems</span></li>
+        <li><strong>2015</strong><span>Certified LabVIEW Developer<br>Started using TestStand</span></li>
+        <li><strong>2021</strong><span>Certified Professional<br>Instructor</span></li>
+      </ol>
+      <div class="presenter-badges">
+        <img src="img/ni-cld.png" alt="NI Certified LabVIEW Developer badge">
+        <img src="img/ni-cpi.png" alt="NI Certified Professional Instructor badge">
+      </div>
+      <p class="callout">A practical perspective: LabVIEW, TestStand and evolving our team workflow.</p>
+      <aside class="notes">
+        <p><strong>Keep it brief:</strong> Introduced to LabVIEW in 2011; joined CPE Systems in 2014; CLD and using TestStand since 2015; CPI since 2021. This is context for the presentation, not a full biography.</p>
+        <p><strong>Key point:</strong> I am sharing a practical, evolving workflow from working with graphical code and test systems, not prescribing a single correct toolchain.</p>
+        <p><strong>Bridge:</strong> Before discussing Git, let's put it on a shared map of the development workflow.</p>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: context, slides and demos</a>
+      </div>
+    </section>
+
+    <section data-act="Introduction · The Workflow">
+      <h2>DevOps: Connect the Pieces</h2>
+      <p class="lead small">How does a requirement become a tested, traceable release?</p>
+      <div class="workflow-map">
+        <div class="card">
+          <h3>1 · Plan &amp; track</h3>
+          <p>Requirements · work items · defects</p>
+          <p class="workflow-tools">GitHub Issues / Projects<br>Jira · Azure Boards</p>
+        </div>
+        <span class="workflow-arrow" aria-hidden="true">→</span>
+        <div class="card workflow-focus">
+          <h3>2 · Version &amp; review</h3>
+          <p>Git · branches · pull requests</p>
+          <p class="workflow-tools">Hosted on GitHub,<br>GitLab or Azure Repos</p>
+        </div>
+        <span class="workflow-arrow" aria-hidden="true">→</span>
+        <div class="card">
+          <h3>3 · Build, test &amp; deliver</h3>
+          <p>Automated checks · releases</p>
+          <p class="workflow-tools">CI/CD pipelines<br>See Pranay's container talk</p>
+        </div>
+      </div>
+      <p class="workflow-feedback">← Feedback from tests and operation informs the next change</p>
+      <p class="callout"><strong>Traceability connects them:</strong> requirement → change → review → test → release → security fix</p>
+      <p class="caption">Today's focus: Git and the working practices underneath CI/CD — adopt one useful piece at a time.</p>
+      <aside class="notes">
+        <p><strong>Thought trigger:</strong> I've used GitHub — isn't that source control? Git is the version-control system; GitHub is a hosting and collaboration platform, not a synonym for Git.</p>
+        <p><strong>Workflow foundations:</strong> Plan and track requirements, work items and defects in GitHub Issues/Projects, Jira or Azure Boards. Version and review changes with Git, hosted on GitHub, GitLab or Azure Repos. Build, test and deliver with CI/CD. Link requirements to changes, tests, releases and security fixes.</p>
+        <p><strong>Example:</strong> Record an instrument timeout defect as a work item, make the fix on a branch, review it, run the checks and identify the release containing the fix. Use test results and operational feedback to guide the next work item.</p>
+        <p><strong>Scope:</strong> This is a simplified map, not a complete definition of DevOps. Shared responsibility, feedback and continuous improvement matter as much as the tools. You do not need to replace every platform at once. Today I am focusing on Git and the working practices underneath CI/CD; build on Pranay's talk for containers and pipelines.</p>
+        <p><strong>Security connection:</strong> Requirements, documentation and traceable fixes support secure development. Git is one part of the evidence, not proof of compliance by itself. See Steve Summers' NI Security discussion and the NI secure-development reference; avoid an unverified universal five-year support claim.</p>
+        <p><strong>Bridge:</strong> With that shared map, let's address the concern graphical developers often have about version control.</p>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">Pro Git: About version control</a>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/repos/?view=azure-devops">Microsoft: Azure Repos documentation</a>
+        <a href="https://discord.com/channels/1177504067635908608/1558057302269890571">Pranay Chandragiri: container talk (GDevCon Discord)</a>
+        <a href="https://www.ni.com/en/support/security/product-security/labview/secure-development-sdlc-framework.html">NI: LabVIEW secure development framework</a>
       </div>
     </section>
 
@@ -467,7 +532,7 @@ builds/</code></pre>
 
 <nav class="deck-nav" aria-label="Slide navigation">
   <button type="button" data-action="prev" aria-label="Previous slide" title="Previous (←)">&#8249;</button>
-  <span class="deck-progress" aria-live="polite"><span id="slide-num">1</span> / <span id="slide-total">16</span></span>
+  <span class="deck-progress" aria-live="polite"><span id="slide-num">1</span> / <span id="slide-total">18</span></span>
   <button type="button" data-action="next" aria-label="Next slide" title="Next (→ / Space)">&#8250;</button>
   <button type="button" data-action="overview" aria-label="Slide overview" title="Overview (Esc)" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></button>
   <button type="button" data-action="notes" aria-label="Open speaker notes in a new window" title="Speaker notes" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 3.5h10M3 8h10M3 12.5h6"/></svg></button>
