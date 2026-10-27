@@ -23,3 +23,6 @@ The LabVIEW Demo Station is fully plugin-based. You can add your own passive con
 6. If your demo is going to include a "Try It" exercise, then perform the same rename operation on the "try_" VI. So for the example in the previous step, it would be renamed *try_Create While Loop Widget.vi*. If your demo is **not** going to include a "Try It" exercise, you can delete the "try_" VI in your copied folder.
 7. Follow the instructions in the "demo_" and "try_" VIs to implement your new demo.
 8. Assuming you followed the above steps correctly, your new demo should appear in the **Demos** list the next time you run the demo station.
+
+# GDevCon ANZ 2026 presentation
+The slides for *DevOps & Git for LabVIEW Development* live in [`slides/`](slides/). They run fully offline: open `slides/index.html`, run `python3 slides/serve.py --open`, or use the Docker image. See [`slides/README.md`](slides/README.md) for embedding in the LabVIEW Web Browser control and GitHub Pages deployment.
