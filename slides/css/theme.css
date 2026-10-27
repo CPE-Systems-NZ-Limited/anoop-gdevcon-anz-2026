@@ -273,3 +273,13 @@ html.notes-view body { margin: 0; font: 400 18px/1.5 "Source Sans Pro", "Segoe U
 .reveal .workflow-arrow { align-self: center; color: var(--accent); }
 .reveal .workflow-tools { color: var(--muted); font-size: 0.85em; padding-top: 0.8em; }
 .reveal .workflow-feedback { text-align: center; color: var(--muted); font-size: 0.55em; margin-top: 0.7em; }
+.reveal .planning-layout { display: grid; grid-template-columns: 3fr 1fr; gap: 0.8em; align-items: start; }
+.reveal .planning-epic { text-align: center; background: rgba(240, 80, 51, 0.12); border: 1px solid var(--accent); border-radius: 0.3em; padding: 0.5em; font-size: 0.65em; }
+.reveal .planning-features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6em; border-top: 2px solid var(--accent); margin-top: 0.6em; }
+.reveal .planning-feature { border-left: 2px solid var(--card-border); padding: 0.6em 0 0 0.4em; position: relative; }
+.reveal .planning-feature::before { content: ""; position: absolute; top: -0.6em; left: 50%; height: 0.6em; border-left: 2px solid var(--accent); }
+.reveal .planning-feature h3 { font-size: 0.6em; }
+.reveal .planning-feature ul { font-size: 0.5em; margin-left: 0.8em; }
+.reveal .planning-feature .planning-tasks { font-size: 0.9em; color: var(--muted); border-left: 2px solid var(--accent); padding-left: 0.6em; list-style: none; }
+.reveal .planning-architecture { font-size: 0.55em; }
+.reveal .planning-architecture p { color: var(--muted); margin-top: 0.7em; }

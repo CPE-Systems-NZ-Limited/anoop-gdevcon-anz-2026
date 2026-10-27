@@ -103,6 +103,71 @@
       </div>
     </section>
 
+    <section data-act="Introduction · Plan &amp; Track">
+      <h2>1 · Plan &amp; Track: From Need to Work</h2>
+      <p class="lead small">Example backlog · Azure Boards Agile hierarchy: Epic → Feature → User Story → Task</p>
+      <div class="planning-layout">
+        <div class="planning-tree">
+          <div class="planning-epic"><strong>EPIC</strong> · Temperature Chamber Control System</div>
+          <div class="planning-features">
+            <div class="planning-feature">
+              <h3>Temperature control</h3>
+              <ul>
+                <li>Set a target temperature</li>
+                <li>Run a temperature profile</li>
+                <li>Maintain agreed tolerance</li>
+              </ul>
+            </div>
+            <div class="planning-feature">
+              <h3>Safe operation</h3>
+              <ul>
+                <li>Stop heating on over-temperature</li>
+                <li>Enter safe state on sensor failure</li>
+              </ul>
+            </div>
+            <div class="planning-feature">
+              <h3>Operation &amp; evidence</h3>
+              <ul>
+                <li>View temperature and status</li>
+                <li><strong>Record temperature and alarms</strong>
+                  <ul class="planning-tasks">
+                    <li>Define record format</li>
+                    <li>Implement logging</li>
+                    <li>Test recording</li>
+                  </ul>
+                </li>
+                <li>Retrieve a completed run's results</li>
+              </ul>
+            </div>
+          </div>
+          <p class="caption">Feature headings → story leaves → one story expanded into tasks</p>
+        </div>
+        <div class="card planning-architecture">
+          <h3>Architecture refines the work</h3>
+          <ul>
+            <li>Hardware/software boundaries &amp; interfaces</li>
+            <li>Safety behaviour &amp; acceptance criteria</li>
+            <li>Implementable tasks</li>
+          </ul>
+          <p>Refine as we learn — not a one-time phase.</p>
+        </div>
+      </div>
+      <p class="callout">Now we have a task to implement. <strong>How do we manage the code change safely?</strong></p>
+      <aside class="notes">
+        <p><strong>Target:</strong> About one minute. This is an illustrative backlog, not a complete chamber specification or a tour of Azure Boards.</p>
+        <p><strong>Thought trigger:</strong> We need a temperature chamber control system. How do we turn that need into work someone can implement and test?</p>
+        <p><strong>Walk the tree:</strong> The Epic represents the overall outcome. Features group capabilities: temperature control, safe operation, and operation/evidence. The eight leaves illustrate stories, written compactly for the slide. Expand them into user-focused statements and acceptance criteria in the actual backlog. For example: “As a test engineer, I want temperature and alarms recorded so that I can investigate a completed run.”</p>
+        <p><strong>Architecture:</strong> The system architect helps define boundaries, interfaces and safety behaviour, captures decisions and refines the backlog with the team. Architecture/design work can be tracked explicitly; the Epic is not simply the architecture document. Requirements and design inform each other as we learn.</p>
+        <p><strong>One example only:</strong> Record temperature and alarms becomes tasks to define the record format, implement logging and test recording. Acceptance criteria should specify what is recorded, when, and how errors are handled. Real safety requirements need appropriate engineering analysis; these labels are not a validated safety design.</p>
+        <p><strong>Terminology:</strong> Epic → Feature → User Story → Task is the Azure Boards Agile process hierarchy; other templates use different names. Avoid introducing a separate subtask level.</p>
+        <p><strong>Bridge — stop the planning discussion here:</strong> We start with an outcome, refine capabilities into testable stories and tasks, and link the evidence. Now we have a task to implement. How do we manage the code change safely? That's where Git comes in. First, let's address the concern about graphical files.</p>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/boards/backlogs/organize-backlog?view=azure-devops">Microsoft: Organize your Azure Boards backlog</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: workflow context and demos</a>
+      </div>
+    </section>
+
     <section data-act="Part 1 · The Binary Myth">
       <h2>The Elephant in the Room</h2>
       <p class="lead">"LabVIEW and TestStand are binary files — they don't work well with Git. Let's just stick to SVN."</p>
@@ -532,7 +597,7 @@ builds/</code></pre>
 
 <nav class="deck-nav" aria-label="Slide navigation">
   <button type="button" data-action="prev" aria-label="Previous slide" title="Previous (←)">&#8249;</button>
-  <span class="deck-progress" aria-live="polite"><span id="slide-num">1</span> / <span id="slide-total">18</span></span>
+  <span class="deck-progress" aria-live="polite"><span id="slide-num">1</span> / <span id="slide-total">19</span></span>
   <button type="button" data-action="next" aria-label="Next slide" title="Next (→ / Space)">&#8250;</button>
   <button type="button" data-action="overview" aria-label="Slide overview" title="Overview (Esc)" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></button>
   <button type="button" data-action="notes" aria-label="Open speaker notes in a new window" title="Speaker notes" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 3.5h10M3 8h10M3 12.5h6"/></svg></button>
