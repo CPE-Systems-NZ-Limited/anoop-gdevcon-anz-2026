@@ -87,6 +87,7 @@
   var numEl = document.getElementById('slide-num');
   var totalEl = document.getElementById('slide-total');
   var actEl = document.getElementById('act-label');
+  var cpeMark = document.getElementById('cpe-mark');
   var prevBtn = navEl.querySelector('[data-action="prev"]');
   var nextBtn = navEl.querySelector('[data-action="next"]');
   var fsBtn = navEl.querySelector('[data-action="fullscreen"]');
@@ -202,6 +203,7 @@
     prevBtn.disabled = Reveal.isFirstSlide() && !Reveal.availableFragments().prev;
     nextBtn.disabled = Reveal.isLastSlide() && !Reveal.availableFragments().next;
     actEl.textContent = (slide && slide.getAttribute('data-act')) || '';
+    if (cpeMark) cpeMark.hidden = !!(slide && slide.classList.contains('title-slide'));
     if (!event || event.type !== 'fragmentshown' && event.type !== 'fragmenthidden') updateLearnMore(slide);
     renderMermaid(slide);
     publishSlide();
