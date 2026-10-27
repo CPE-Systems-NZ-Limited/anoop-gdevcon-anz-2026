@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DevOps &amp; Git for LabVIEW Development · GDevCon ANZ</title>
+  <meta name="description" content="GDevCon ANZ talk: DevOps & Git for LabVIEW Development">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/black.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <script src="js/notes-view.js"></script>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ===================== PART 1 · THE BINARY MYTH ===================== -->
+    <section class="title-slide" data-act="Part 1 · The Binary Myth">
+      <div class="split">
+        <div class="split-main">
+          <p class="kicker">GDevCon ANZ #3 · 28 October 2026</p>
+          <h1>DevOps &amp; Git<br><span class="accent">for LabVIEW Development</span></h1>
+          <p class="subtitle">Building Right, Scaling Small</p>
+          <p class="speaker">Anoop Nandakumar · CPE Systems NZ</p>
+        </div>
+        <div class="brand-logos">
+          <img src="img/cpe-logo.png" alt="CPE Systems NZ">
+          <img src="img/gdevcon-anz.png" alt="GDevCon ANZ">
+        </div>
+      </div>
+      <aside class="notes"><p><strong>Opening — show of hands:</strong> Who has ever fixed the same bug twice because the earlier fix went missing? Pause, acknowledge the hands, and connect this to a familiar problem rather than a new tool.</p><p><strong>Audience thought:</strong> I'm comfortable with what I'm doing. Why change? This is about making changes recoverable, understandable and safe to share, not telling experienced developers to start again. If this feels like another tool to learn, or something you have already tried, your existing experience still matters.</p><p><strong>Bridge:</strong> First, a little context on the experience behind this presentation.</p>Post-lunch slot: get people moving early. Point out that this deck is running live inside a LabVIEW Web Browser Front Panel Control (demo_Web Browser Front Panel Control.vi).</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: slides &amp; demos (GitHub)</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026/tree/develop/slides">How these slides run offline &amp; inside LabVIEW</a>
+      </div>
+    </section>
+
+    <section data-act="Introduction · Context">
+      <h2>About the Presenter</h2>
+      <p class="lead small">Anoop Nandakumar · CPE Systems NZ</p>
+      <ol class="presenter-timeline" aria-label="Experience timeline">
+        <li><strong>2011</strong><span>Introduced to<br>LabVIEW</span></li>
+        <li><strong>2014</strong><span>Joined<br>CPE Systems</span></li>
+        <li><strong>2015</strong><span>Certified LabVIEW Developer<br>Started using TestStand</span></li>
+        <li><strong>2021</strong><span>Certified Professional<br>Instructor</span></li>
+      </ol>
+      <div class="presenter-badges">
+        <img src="img/ni-cld.png" alt="NI Certified LabVIEW Developer badge">
+        <img src="img/ni-cpi.png" alt="NI Certified Professional Instructor badge">
+      </div>
+      <p class="callout">A practical perspective: LabVIEW, TestStand and evolving our team workflow.</p>
+      <aside class="notes">
+        <p><strong>Keep it brief:</strong> Introduced to LabVIEW in 2011; joined CPE Systems in 2014; CLD and using TestStand since 2015; CPI since 2021. This is context for the presentation, not a full biography.</p>
+        <p><strong>Key point:</strong> I am sharing a practical, evolving workflow from working with graphical code and test systems, not prescribing a single correct toolchain.</p>
+        <p><strong>Bridge:</strong> Before discussing Git, let's put it on a shared map of the development workflow.</p>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: context, slides and demos</a>
+      </div>
+    </section>
+
+    <section data-act="Introduction · The Workflow">
+      <h2>DevOps: Connect the Pieces</h2>
+      <p class="lead small">How does a requirement become a tested, traceable release?</p>
+      <div class="workflow-map">
+        <div class="card">
+          <h3>1 · Plan &amp; track</h3>
+          <p>Requirements · work items · defects</p>
+          <p class="workflow-tools">GitHub Issues / Projects<br>Jira · Azure Boards</p>
+        </div>
+        <span class="workflow-arrow" aria-hidden="true">→</span>
+        <div class="card workflow-focus">
+          <h3>2 · Version &amp; review</h3>
+          <p>Git · branches · pull requests</p>
+          <p class="workflow-tools">Hosted on GitHub,<br>GitLab or Azure Repos</p>
+        </div>
+        <span class="workflow-arrow" aria-hidden="true">→</span>
+        <div class="card">
+          <h3>3 · Build, test &amp; deliver</h3>
+          <p>Automated checks · releases</p>
+          <p class="workflow-tools">CI/CD pipelines<br>See Pranay's container talk</p>
+        </div>
+      </div>
+      <p class="workflow-feedback">← Feedback from tests and operation informs the next change</p>
+      <p class="callout"><strong>Traceability connects them:</strong> requirement → change → review → test → release → security fix</p>
+      <p class="caption">Today's focus: Git and the working practices underneath CI/CD — adopt one useful piece at a time.</p>
+      <aside class="notes">
+        <p><strong>Thought trigger:</strong> I've used GitHub — isn't that source control? Git is the version-control system; GitHub is a hosting and collaboration platform, not a synonym for Git.</p>
+        <p><strong>Workflow foundations:</strong> Plan and track requirements, work items and defects in GitHub Issues/Projects, Jira or Azure Boards. Version and review changes with Git, hosted on GitHub, GitLab or Azure Repos. Build, test and deliver with CI/CD. Link requirements to changes, tests, releases and security fixes.</p>
+        <p><strong>Example:</strong> Record an instrument timeout defect as a work item, make the fix on a branch, review it, run the checks and identify the release containing the fix. Use test results and operational feedback to guide the next work item.</p>
+        <p><strong>Scope:</strong> This is a simplified map, not a complete definition of DevOps. Shared responsibility, feedback and continuous improvement matter as much as the tools. You do not need to replace every platform at once. Today I am focusing on Git and the working practices underneath CI/CD; build on Pranay's talk for containers and pipelines.</p>
+        <p><strong>Security connection:</strong> Requirements, documentation and traceable fixes support secure development. Git is one part of the evidence, not proof of compliance by itself. See Steve Summers' NI Security discussion and the NI secure-development reference; avoid an unverified universal five-year support claim.</p>
+        <p><strong>Bridge:</strong> With that shared map, let's address the concern graphical developers often have about version control.</p>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">Pro Git: About version control</a>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/repos/?view=azure-devops">Microsoft: Azure Repos documentation</a>
+        <a href="https://discord.com/channels/1177504067635908608/1558057302269890571">Pranay Chandragiri: container talk (GDevCon Discord)</a>
+        <a href="https://www.ni.com/en/support/security/product-security/labview/secure-development-sdlc-framework.html">NI: LabVIEW secure development framework</a>
+      </div>
+    </section>
+
+    <section data-act="Introduction · Plan &amp; Track">
+      <h2>1 · Plan &amp; Track: From Need to Work</h2>
+      <p class="lead small">Example backlog · Azure Boards Agile hierarchy: Epic → Feature → User Story → Task</p>
+      <div class="planning-layout">
+        <div class="planning-tree">
+          <div class="planning-epic"><strong>EPIC</strong> · Temperature Chamber Control System</div>
+          <div class="planning-features">
+            <div class="planning-feature">
+              <h3>Temperature control</h3>
+              <ul>
+                <li>Set a target temperature</li>
+                <li>Run a temperature profile</li>
+                <li>Maintain agreed tolerance</li>
+              </ul>
+            </div>
+            <div class="planning-feature">
+              <h3>Safe operation</h3>
+              <ul>
+                <li>Stop heating on over-temperature</li>
+                <li>Enter safe state on sensor failure</li>
+              </ul>
+            </div>
+            <div class="planning-feature">
+              <h3>Operation &amp; evidence</h3>
+              <ul>
+                <li>View temperature and status</li>
+                <li><strong>Record temperature and alarms</strong>
+                  <ul class="planning-tasks">
+                    <li>Define record format</li>
+                    <li>Implement logging</li>
+                    <li>Test recording</li>
+                  </ul>
+                </li>
+                <li>Retrieve a completed run's results</li>
+              </ul>
+            </div>
+          </div>
+          <p class="caption">Feature headings → story leaves → one story expanded into tasks</p>
+        </div>
+        <div class="card planning-architecture">
+          <h3>Architecture refines the work</h3>
+          <ul>
+            <li>Hardware/software boundaries &amp; interfaces</li>
+            <li>Safety behaviour &amp; acceptance criteria</li>
+            <li>Implementable tasks</li>
+          </ul>
+          <p>Refine as we learn — not a one-time phase.</p>
+        </div>
+      </div>
+      <p class="callout">Now we have a task to implement. <strong>How do we manage the code change safely?</strong></p>
+      <aside class="notes">
+        <p><strong>Target:</strong> About one minute. This is an illustrative backlog, not a complete chamber specification or a tour of Azure Boards.</p>
+        <p><strong>Thought trigger:</strong> We need a temperature chamber control system. How do we turn that need into work someone can implement and test?</p>
+        <p><strong>Walk the tree:</strong> The Epic represents the overall outcome. Features group capabilities: temperature control, safe operation, and operation/evidence. The eight leaves illustrate stories, written compactly for the slide. Expand them into user-focused statements and acceptance criteria in the actual backlog. For example: “As a test engineer, I want temperature and alarms recorded so that I can investigate a completed run.”</p>
+        <p><strong>Architecture:</strong> The system architect helps define boundaries, interfaces and safety behaviour, captures decisions and refines the backlog with the team. Architecture/design work can be tracked explicitly; the Epic is not simply the architecture document. Requirements and design inform each other as we learn.</p>
+        <p><strong>One example only:</strong> Record temperature and alarms becomes tasks to define the record format, implement logging and test recording. Acceptance criteria should specify what is recorded, when, and how errors are handled. Real safety requirements need appropriate engineering analysis; these labels are not a validated safety design.</p>
+        <p><strong>Terminology:</strong> Epic → Feature → User Story → Task is the Azure Boards Agile process hierarchy; other templates use different names. Avoid introducing a separate subtask level.</p>
+        <p><strong>Bridge — stop the planning discussion here:</strong> We start with an outcome, refine capabilities into testable stories and tasks, and link the evidence. Now we have a task to implement. How do we manage the code change safely? That's where Git comes in. First, let's address the concern about graphical files.</p>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/boards/backlogs/organize-backlog?view=azure-devops">Microsoft: Organize your Azure Boards backlog</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo: workflow context and demos</a>
+      </div>
+    </section>
+
+    <section data-act="Part 1 · The Binary Myth">
+      <h2>The Elephant in the Room</h2>
+      <p class="lead">"LabVIEW and TestStand are binary files — they don't work well with Git. Let's just stick to SVN."</p>
+      <p class="poll-q">Raise your hand if you've…</p>
+      <ul class="poll">
+        <li class="fragment">…said it</li>
+        <li class="fragment">…heard it</li>
+        <li class="fragment">…had a build broken by a binary merge conflict</li>
+      </ul>
+      <aside class="notes"><p><strong>Show of hands:</strong> Who uses version control today — SVN, Git, or something else? Acknowledge each group without ranking them. Use the on-screen binary questions as quick follow-ups, not three lengthy polls.</p><p><strong>Audience thought:</strong> LabVIEW is binary; Git is not the right tool. Separate storing versions from comparing and merging them. Both systems can store VIs; meaningful graphical comparison needs LabVIEW-aware tools. Conflicts need an intentional resolution, not blind acceptance.</p><p><strong>Bridge:</strong> Let's separate what the repository does from what the comparison tool does.</p>Interactive poll #1. Keep hands up and count roughly; come back to the "broken build" group on the Git Flow slide.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">Pro Git: About version control</a>
+        <a href="https://www.atlassian.com/git/tutorials/migrating-overview">Atlassian: Migrating from SVN to Git</a>
+      </div>
+    </section>
+
+    <section data-act="Part 1 · The Binary Myth">
+      <h2>The Binary Myth</h2>
+      <p class="lead">SVN vs. Git reality check</p>
+      <table class="compare">
+        <thead><tr><th></th><th>SVN</th><th>Git</th></tr></thead>
+        <tbody>
+          <tr><td>Stores binary VIs</td><td class="ok">Yes</td><td class="ok">Yes</td></tr>
+          <tr><td>Text-diffs a VI</td><td class="no">No</td><td class="no">No</td></tr>
+          <tr><td>Graphical diff/merge via LVCompare / LVMerge</td><td class="ok">Yes</td><td class="ok">Yes</td></tr>
+          <tr><td>File locking</td><td class="ok">Native</td><td class="ok">Git LFS</td></tr>
+          <tr><td>Full history offline</td><td class="no">No</td><td class="ok">Yes</td></tr>
+          <tr><td>Cheap local branches</td><td class="no">No</td><td class="ok">Yes</td></tr>
+        </tbody>
+      </table>
+      <p class="callout">Binary vs. text is a <strong>diff tool</strong> problem, not a version-control problem.</p>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/comparing-vis.html">NI: Comparing VIs</a>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/merging-vis.html">NI: Merging VIs</a>
+        <a href="https://git-lfs.com/">Git LFS (large files &amp; locking)</a>
+      </div>
+    </section>
+
+    <section data-act="Part 1 · The Binary Myth">
+      <h2>SVN / No SCC: A Ticking Time Bomb</h2>
+      <div class="grid-2">
+        <div class="card warn">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l5 2v4.2c0 3.4-2.3 5.8-5 6.8-2.7-1-5-3.4-5-6.8V3.5l5-2z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Security &amp; resilience</h3>
+          <ul>
+            <li>One central server: SVN offline = whole team blocked</li>
+            <li>"Code on a shared drive" has no audit trail</li>
+            <li>No pull-request review gate before release</li>
+            <li>Hard to prove <em>who changed what, when</em></li>
+          </ul>
+        </div>
+        <div class="card warn">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 1L4.5 9h3l-1 6 5-8h-3l1-6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>The AI era</h3>
+          <ul>
+            <li>AI writes code fast — review has to keep up</li>
+            <li>AI assistants, CI/CD and review tools are Git-native</li>
+            <li><strong>Tamper-evident history:</strong> every commit ID depends on all the history before it</li>
+            <li>Optional: sign commits &amp; tags to verify <em>who</em></li>
+          </ul>
+        </div>
+      </div>
+      <p class="callout">Tamper-evident history + reviewed PRs into a protected <code>master</code></p>
+      <aside class="notes"><p><strong>Thought trigger:</strong> This always breaks, and I don't know what changed. A repository records changes; reviews, tests and release controls help us judge whether those changes are safe.</p><p><strong>Security context:</strong> Connect to Steve Summers' NI Security talk: requirements, documentation and traceability matter throughout secure development and patch maintenance. Git supports this evidence; it does not establish CRA compliance by itself. Do not state a universal five-year support obligation without checking the applicable requirements and product scope. SVN also has version history and audit information; distinguish its capabilities from an unversioned shared drive rather than treating them as the same.</p><p><strong>Bridge:</strong> These practices help even if your only teammate is your future self.</p>Git commit IDs are hashes over content and parent commits, so rewriting old history changes every later ID: tampering is visible. Author names are free text though; only signed commits/tags verify who made them (GitHub shows "Verified"). Don't claim "cryptographically verified" unless signing is on.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://git-scm.com/book/en/v2/Git-Internals-Git-Objects">Pro Git: How Git stores history (objects &amp; hashes)</a>
+        <a href="https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work">Pro Git: Signing your work</a>
+        <a href="https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification">GitHub: Commit signature verification</a>
+      </div>
+    </section>
+
+    <section data-act="Part 1 · The Binary Myth">
+      <h2>"But I'm a Solo Developer…"</h2>
+      <p class="lead small">"I'm just one person — why do I need branches?"</p>
+      <ul class="big-list">
+        <li class="fragment"><strong>Time travel</strong> — every commit is a save point</li>
+        <li class="fragment"><strong>Zero-fear experiments</strong> — <code>git checkout -b experiment</code>; discard a failed idea in a second, no stray <code>.vi</code> copies</li>
+        <li class="fragment"><strong>Off-site backup</strong> — push to a remote, sleep at night</li>
+        <li class="fragment"><strong>History is documentation</strong> — for clients, audits and handover</li>
+        <li class="fragment"><strong>Your future self is your teammate</strong></li>
+      </ul>
+      <aside class="notes"><p><strong>Thought trigger:</strong> Why not just create a local copy? Or: I'm sure I fixed that bug before, but I have lost the change and have to redo it.</p><p><strong>Answer:</strong> Local copies can be useful snapshots, but names like final_v2 do not explain intent or reliably reconcile changes. Small commits give identifiable save points, history helps locate the earlier fix, and a pushed remote provides another copy. Uncommitted or unpushed work is not automatically protected.</p><p><strong>Commit-message example:</strong> Replace “updated code”, “updated design” or “new version” with “Fix timeout handling so a disconnected instrument cannot hang the test sequence”. Link the relevant work item and explain why the change was needed. Keep commits focused so the message describes a coherent change.</p><p><strong>Bridge:</strong> Save points are useful; separating unfinished work from releasable work is the next step.</p></aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell">Pro Git: Branches in a nutshell</a>
+        <a href="https://learngitbranching.js.org/">Learn Git Branching (interactive)</a>
+      </div>
+    </section>
+
+    <!-- ===================== PART 2 · GIT FLOW ===================== -->
+    <section data-act="Part 2 · Git Flow">
+      <h2>The SVN Trunk Trap</h2>
+      <div class="grid-2 align-center">
+        <div class="mermaid-wrap">
+<pre class="mermaid">
+flowchart LR
+  A[Dev A<br/>feature WIP] --> T((trunk))
+  B[Dev B<br/>half-done fix] --> T
+  C[Dev C<br/>refactor] --> T
+  T --> R{Release?}
+  R -- "trunk broken" --> X[Delay / hotfix<br/>on top of WIP]
+</pre>
+        </div>
+        <ul>
+          <li>Everyone commits to one line</li>
+          <li>Trunk is never <em>quite</em> releasable</li>
+          <li>Hotfixes ship half-finished features</li>
+          <li>Branching in SVN is heavy, so nobody does it</li>
+        </ul>
+      </div>
+      <p class="callout">The same trap in Git: treating <code>master</code> like trunk and pushing raw edits straight to production.</p>
+      <div class="learn-more-links" hidden>
+        <a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches">GitHub: Protected branches</a>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies">Azure DevOps: Branch policies</a>
+      </div>
+    </section>
+
+    <section data-act="Part 2 · Git Flow">
+      <h2>Enter Git Flow for Graphical Developers</h2>
+      <p class="lead small"><code>master</code> (production) → <code>develop</code> (integration) → <code>feature/*</code> (safe isolation)</p>
+      <div class="mermaid-wrap wide">
+<pre class="mermaid">
+%%{init: { 'gitGraph': { 'mainBranchName': 'master', 'showCommitLabel': false } } }%%
+gitGraph
+  commit tag: "v1.0"
+  branch develop
+  checkout develop
+  commit
+  branch feature/daq-driver
+  checkout feature/daq-driver
+  commit
+  commit
+  checkout develop
+  branch feature/ui-refresh
+  checkout feature/ui-refresh
+  commit
+  checkout develop
+  merge feature/daq-driver
+  merge feature/ui-refresh
+  checkout master
+  merge develop tag: "v1.1"
+  branch hotfix/1.1.1
+  checkout hotfix/1.1.1
+  commit
+  checkout master
+  merge hotfix/1.1.1 tag: "v1.1.1"
+  checkout develop
+  merge hotfix/1.1.1
+</pre>
+      </div>
+      <p class="caption"><code>feature/*</code> → <code>develop</code>: merge commit · <code>develop</code> → <code>master</code>: reviewed PR + tag <code>vX.Y.Z</code> · <code>hotfix/*</code> → <code>master</code> and <code>develop</code></p>
+      <p class="caption small-note">No direct commits to <code>master</code> · optional <code>bugfix/*</code> and <code>release/*</code></p>
+      <aside class="notes"><p><strong>Thought trigger:</strong> Why not just commit to main or master? A branch isolates a change while it is being developed and reviewed. A pull request is the proposed change and its review conversation; merging incorporates it into the destination branch.</p><p><strong>Conflict cue:</strong> It errors when I merge. A conflict means Git cannot safely choose the combined result automatically; it does not necessarily mean the work is lost. Inspect both changes, use LabVIEW-aware comparison/merge tools where supported, agree the intended result and test it. Keep branches short-lived and coordinate ownership of shared VIs. Branches do not eliminate conflicts.</p><p><strong>Qualification:</strong> This is CPE's workflow, not the only valid DevOps workflow. Disciplined trunk-based development can also work; the problem is uncontrolled unfinished changes reaching production.</p><p><strong>Bridge:</strong> You can follow this workflow visually; you do not have to start with command-line syntax.</p>CPE standard: features branch from develop, stay narrow and short-lived, merge back with a merge commit and are deleted. develop must stay buildable. master is protected: PR with reviewer approval, no force pushes, every production merge tagged v&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;. Hotfixes branch from master and merge into both. release/* is optional. (GitHub's default name is main; same role.)</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://nvie.com/posts/a-successful-git-branching-model/">Vincent Driessen: A successful Git branching model</a>
+        <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Atlassian: Gitflow workflow</a>
+      </div>
+    </section>
+
+    <section data-act="Part 2 · Git Flow">
+      <h2>Why GUIs Matter for Graphical Programmers</h2>
+      <p class="lead small">You don't need a command line to be a DevOps engineer</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="4.5" cy="12" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="11.5" cy="6" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 5.6v4.8M11.5 7.6c0 2-2.8 2.8-5.4 2.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>SourceTree</h3>
+          <ul>
+            <li>Free (Atlassian)</li>
+            <li>Built-in Git Flow buttons</li>
+            <li>Custom external diff / merge tools</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l6 3-6 3-6-3 6-3zM2.5 8.5L8 11.5l5.5-3M2.5 11.5L8 14.5l5.5-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>GitKraken</h3>
+          <ul>
+            <li>Visual commit graph</li>
+            <li>Drag-and-drop merge / rebase</li>
+            <li>Git Flow support built in</li>
+          </ul>
+        </div>
+        <div class="card warn">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 10.5a4.5 4.5 0 0 1 9 0v1h-9v-1zM8 6v4.5M5.5 7v3.5M10.5 7v3.5M2.5 12.5h11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>TortoiseGit</h3>
+          <ul>
+            <li>Free, right-click menus in Windows Explorer</li>
+            <li>Familiar for TortoiseSVN users</li>
+            <li><strong>No Git Flow buttons</strong> — easy to keep working the SVN way and miss the benefits of Git</li>
+          </ul>
+        </div>
+      </div>
+      <p class="callout">Point any of them at <strong>LVCompare.exe</strong> and <strong>LVMerge.exe</strong> — VI diffs open in LabVIEW, not as unreadable bytes.</p>
+      <aside class="notes"><p><strong>Thought triggers:</strong> TortoiseSVN has an equivalent in Git — why not stick with TortoiseGit? Why use a GUI when there is a command line?</p><p><strong>Answer:</strong> A familiar interface is a valid starting point. Neither GUI nor command line is inherently more professional. We use a graphical programming language; a visual history can be a useful way to understand branches and changes. Choose an interface that helps you inspect the work and apply the agreed workflow. TortoiseGit does not enforce or ease Git Flow with dedicated buttons; follow the branch and review rules deliberately.</p><p><strong>Bridge:</strong> The client is only one piece; next configure the repository for LabVIEW files.</p>TortoiseGit is fine for developers coming from TortoiseSVN, but it doesn't guide you through Git Flow, so people tend to commit straight to one branch like SVN trunk. If you use it, follow the branching rules deliberately.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.sourcetreeapp.com/">SourceTree</a>
+        <a href="https://www.gitkraken.com/">GitKraken</a>
+        <a href="https://tortoisegit.org/docs/tortoisegit/">TortoiseGit manual</a>
+      </div>
+    </section>
+
+    <!-- ===================== PART 3 · CORE TECH ===================== -->
+    <section data-act="Part 3 · Core Tech">
+      <h2>Deconstructing the Binary Myth</h2>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li><strong>Separate compiled code</strong> from source — recompiles stop touching every VI</li>
+            <li>Tell Git which files are binary</li>
+            <li>Ignore generated files</li>
+            <li>Large build outputs and archives go to Git LFS</li>
+            <li>Optional: LFS locking for shared VIs</li>
+          </ul>
+        </div>
+        <div>
+<pre class="code"><code># .gitattributes
+*.vi   binary
+*.vit  binary
+*.ctl  binary
+*.ctt  binary
+*.vim  binary
+
+# Git LFS (CPE repo template)
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+
+# .gitignore
+*.aliases
+*.lvlps
+builds/</code></pre>
+        </div>
+      </div>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/separating-compiled-code-from-vis-and-other-file-types.html">NI: Separating compiled code from VIs</a>
+        <a href="https://git-lfs.com/">Git LFS</a>
+      </div>
+    </section>
+
+    <section data-act="Part 3 · Core Tech">
+      <h2>LabVIEW Graphical Diff &amp; Merge in Action</h2>
+      <p class="lead small">LabVIEW 2025 Q1 compare improvements · 2025 Q3 comparison reports from the CLI</p>
+      <div class="grid-2">
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 8s2.5-4.5 6.5-4.5S14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Review a PR locally</h3>
+          <ul>
+            <li>Front panel &amp; block diagram side by side</li>
+            <li>Step through each highlighted change</li>
+            <li>Opened from your Git client via LVCompare / LVMerge</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10.5V3M5 6l3-3 3 3M2.5 10.5v3h11v-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Put it on the PR</h3>
+          <ul>
+            <li>PR web pages can't render a VI diff</li>
+            <li>Generate a comparison report from the LabVIEW CLI</li>
+            <li>Publish it from CI alongside the pull request</li>
+          </ul>
+        </div>
+      </div>
+      <p class="demo-tag">Live demo · Compare VI Improvements · Comparison Reports from CLI</p>
+      <aside class="notes">Demo Station: 2025 Q1 Features → Compare VI Improvements, then 2025 Q3 Features → Comparison Reports from CLI. GitHub / Azure DevOps PR pages only show "binary file changed"; the visual diff happens in LabVIEW, or as a CLI-generated report attached by CI. Check exact feature wording against NI release notes.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/comparing-vis.html">NI: Comparing VIs</a>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/merging-vis.html">NI: Merging VIs</a>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/running-operations-using-the-command-line-interface-for-labview.html">NI: LabVIEW command-line interface</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026/tree/develop/LabVIEW%20Demo%20Station/Demos/2025%20Q1%20Features/Compare%20VI%20Improvements">Demo: Compare VI Improvements</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026/tree/develop/LabVIEW%20Demo%20Station/Demos/2025%20Q3%20Features/Comparison%20Reports%20from%20CLI">Demo: Comparison Reports from CLI</a>
+      </div>
+    </section>
+
+    <section data-act="Part 3 · Core Tech">
+      <h2>TestStand 2025 Git Integration</h2>
+      <p class="lead small">Native sequence-file versioning — no external wrapper hacks</p>
+      <ul class="big-list">
+        <li>Source control from inside the Sequence Editor</li>
+        <li>Commit, branch and view history without leaving TestStand</li>
+        <li>Sequence files and LabVIEW code modules in one repository</li>
+        <li>One workflow for test code and product code</li>
+      </ul>
+      <p class="demo-tag">Live demo</p>
+      <aside class="notes"><p><strong>Thought trigger:</strong> I didn't know TestStand had a Git pane or Git integration.</p><p><strong>Demo cue:</strong> Show the supported actions in the installed Sequence Editor and connect them to the same repository, history and review concepts. Demonstrate only capabilities confirmed in that version; do not infer support for every Git operation from the presence of the pane.</p><p><strong>Bridge:</strong> The tools are available; how do we introduce them into an existing project?</p>Check feature wording against the TestStand 2025 release notes before the talk.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.ni.com/docs/en-US/bundle/teststand-api-ref/page/tsref/git-pane.html">NI: TestStand Sequence Editor Git pane</a>
+      </div>
+    </section>
+
+    <!-- ===================== PART 4 · REAL WORLD ===================== -->
+    <section data-act="Part 4 · Real World">
+      <h2>Scaling for Systems Integrators</h2>
+      <p class="lead small">Lessons from CPE Systems NZ · SVN → Azure DevOps Git for a large industrial test-equipment customer</p>
+      <div class="grid-3">
+        <div class="card"><h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="2" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="5.5" y="9" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>50 repos</h3><p>23 hardware · 26 software · 1 shared library, migrated in January 2026</p></div>
+        <div class="card"><h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="5.5" y="5.5" width="5" height="5" rx="0.8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>4 super-repos</h3><p>Git submodules group components into deployable test systems</p></div>
+        <div class="card"><h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.8V8l2.6 1.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>History kept</h3><p>SVN authors mapped to Git identities, so history stays traceable</p></div>
+      </div>
+      <p class="callout">One template for every repo · access limited per customer project · pilot first, then batch · protected <code>master</code></p>
+      <aside class="notes"><p><strong>Show of hands:</strong> Who is still working with an SVN repository?</p><p><strong>Audience question:</strong> I have a large SVN repository, or several repositories. How do I migrate to Git?</p><p><strong>Answer:</strong> Inventory repositories, dependencies, large files and users. Decide the repository boundaries and history requirements before importing. Pilot a simple project, map authors, validate history, tags and builds, then try a more complex project. Agree a cutover, retain an accessible SVN archive, train the team and expand in stages. Importing history is only one part of changing the workflow; a large repository is not a reason to migrate everything overnight.</p><p><strong>Bridge:</strong> Start with a small, demonstrable example — even the source of this presentation.</p>Customer anonymised on purpose (public repo). Dozens of customer repos: same template (.gitignore, .gitattributes with LFS, folder layout) everywhere. Repository access is limited per project, and external collaborators get guest access. Phased rollout: one simple repo, then a complex one, then a super-repo, then batch. Author mapping with a default fallback, iterated over several rounds. Submodules use relative URLs; every super-repo has a README.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">Pro Git: Submodules</a>
+        <a href="https://www.atlassian.com/git/tutorials/migrating-overview">Atlassian: Migrating from SVN to Git</a>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies">Azure DevOps: Branch policies</a>
+        <a href="https://learn.microsoft.com/en-us/azure/devops/repos/?view=azure-devops">Microsoft: Azure Repos documentation</a>
+        <a href="https://learn.microsoft.com/en-nz/azure/devops/repos/get-started/?view=azure-devops">Microsoft: Get started with Azure Repos</a>
+      </div>
+    </section>
+
+    <section data-act="Part 4 · Real World">
+      <h2>The Meta-Demo: Presenting Inside LabVIEW</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2.5" width="12" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 10.5v2.2M5.5 14h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>LabVIEW Demo Station</h3>
+          <p>Darren Nattinger's plugin-based demo framework — each demo is a <code>demo_</code> / <code>try_</code> VI pair</p>
+        </div>
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 5.5h12" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="9.5" r="2.3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Web Browser Front Panel Control</h3>
+          <p>LabVIEW 2026 Q1 control drives these slides — locally from disk, or from GitHub Pages</p>
+        </div>
+        <div class="card">
+          <h3><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4.5" cy="4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="4.5" cy="12" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="11.5" cy="6" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 5.6v4.8M11.5 7.6c0 2-2.8 2.8-5.4 2.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Git in action</h3>
+          <p>Clean <code>.gitignore</code>, then switch branches in SourceTree / GitKraken and watch the deck change</p>
+        </div>
+      </div>
+      <p class="demo-tag">Live demo · Web Browser Front Panel Control</p>
+      <aside class="notes">Run demo_Web Browser Front Panel Control.vi from the Demo Station (2026 Q1 Features). Show the deck loading from slides/index.html, then from GitHub Pages. Switch to a feature branch in SourceTree/GitKraken, reload, show the change, switch back.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://github.com/dnattinger/labview-demo-station">Darren Nattinger: labview-demo-station</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026/tree/develop/LabVIEW%20Demo%20Station/Demos/2026%20Q1%20Features/Web%20Browser%20Front%20Panel%20Control">Demo: Web Browser Front Panel Control</a>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026/tree/develop/slides">How these slides are built &amp; hosted</a>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview/page/web-browser-control.html">NI: Web Browser control</a>
+        <a href="https://www.ni.com/docs/en-US/bundle/labview-api-ref/page/properties-and-methods/vi-server/generic/gobject/control/webbrowser.html">NI: WebBrowser control properties &amp; methods</a>
+        <a href="https://knowledge.ni.com/KnowledgeArticleDetails?id=kA0VU000000Bwn30AC">NI: Web Browser control FAQ</a>
+        <a href="notes.html">Speaker notes for this talk</a>
+      </div>
+    </section>
+
+    <section data-act="Part 4 · Real World">
+      <h2>Community Shoulders to Stand On</h2>
+      <p class="lead small">GDevCon peers worth following up</p>
+      <div class="grid-2 talks">
+        <div class="talk"><img src="img/gdevcon-eur.png" alt="GDevCon"><div><strong>Scott Melin</strong> · Orbion Space Technology<br><em>DevOps and LabVIEW: We shouldn't, but we did, and you can too!</em> <small>GDevCon#5</small><br><span>Azure DevOps YAML pipelines build &amp; deploy LabVIEW for space hardware</span></div></div>
+        <div class="talk"><img src="img/gdevcon-eur.png" alt="GDevCon"><div><strong>Niko Naredi Rainer</strong> · Zühlke Engineering<br><em>LabVIEW on Azure DevOps: Using One Platform for Your Pipeline</em> <small>GDevCon#5</small><br><span>NuGet packages, Caraya tests &amp; VI Analyzer in one Azure DevOps pipeline</span></div></div>
+        <div class="talk"><img src="img/gdevcon-eur.png" alt="GDevCon"><div><strong>Greg Payne</strong><br><em>Git Submodules: An Alternative Approach to Code Reuse</em> <small>GDevCon#2</small><br><span>Project-local library versions with Git submodules</span></div></div>
+        <div class="talk"><img src="img/gdevcon-anz.png" alt="GDevCon ANZ"><div><strong>Pranay Chandragiri</strong> · Soliton Technologies<br><em>Modernizing LabVIEW CI/CD with Containers: From Desktop to Pipeline</em> <small>GDevCon ANZ #3</small><br><span>NI's headless LabVIEW container images + LabVIEWCLI in GitHub Actions</span></div></div>
+      </div>
+      <aside class="notes">
+        <p><strong>Thought trigger:</strong> Where do I go for the CI/CD part? Pranay's container talk connects the versioned source to repeatable automation. These community talks extend the foundations here; you do not need to introduce every pipeline component at once.</p>
+        <p><strong>Bridge:</strong> Choose one practice to improve next, rather than trying to adopt everything tomorrow.</p>
+        <p><strong>Scott Melin, Orbion Space Technology (GDevCon#5).</strong> Small team, near-100% reliability for space hardware, so they needed controlled versioning and automated deployment to production machines (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=0s">0:00</a>).</p>
+        <ul>
+          <li>Azure DevOps for repos, YAML build pipelines and versioned executables (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=318s">5:18</a>).</li>
+          <li>Self-hosted build VMs, VIPM for configuration, LabVIEW CLI for builds (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=572s">9:32</a>).</li>
+          <li>Hurdles: path errors in project files, build-time permissions, making sure LabVIEW is open before CLI calls (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=1230s">20:30</a>).</li>
+          <li>Nested Azure permissions for agents, feeds and pipelines (<a href="https://www.youtube.com/watch?v=ULDfoYiwnro&t=1597s">26:37</a>).</li>
+          <li>Result: shorter development time and traceable software versions across the production floor.</li>
+        </ul>
+        <p><strong>Niko Naredi Rainer, Zühlke Engineering (GDevCon#5).</strong> A DevOps mindset improves LabVIEW code quality despite dependency-management pain (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=216s">3:36</a>).</p>
+        <ul>
+          <li>Three parts: developer PC, Azure DevOps, self-hosted agent (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=633s">10:33</a>).</li>
+          <li>CI: Caraya unit tests, VI Analyzer, packed-library builds, each wrapped in PowerShell you can run locally first (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=780s">13:00</a>).</li>
+          <li>Dependencies: packed libraries as NuGet packages in Azure Artifacts instead of VIPM (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=975s">16:15</a>).</li>
+          <li>Public example project (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1338s">22:18</a>).</li>
+          <li>Tips: run the agent interactively during setup to catch pop-ups (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1451s">24:11</a>); agree on templates and structure (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1528s">25:28</a>); prefer James McNally's G CLI over the LabVIEW CLI (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1597s">26:37</a>).</li>
+          <li>NI still needs better native support here (<a href="https://www.youtube.com/watch?v=AU-06R5b85Y&t=1728s">28:48</a>).</li>
+        </ul>
+        <p><strong>Greg Payne (GDevCon#2).</strong> Git submodules as a portable approach to code reuse (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=0s">0:00</a>).</p>
+        <ul>
+          <li>A submodule is a nested repo; the parent tracks only a commit hash (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=195s">3:15</a>).</li>
+          <li>He avoids recursive submodules because of LabVIEW memory/file handling (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=324s">5:24</a>).</li>
+          <li>Different projects can use different library versions on one machine (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=809s">13:29</a>).</li>
+          <li>His LabVIEW project-provider add-on manages submodules from the IDE (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=1000s">16:40</a>).</li>
+          <li>Keep code apart from compiled binaries; add a README per submodule (<a href="https://www.youtube.com/watch?v=iv7WwDgyb0U&t=1448s">24:08</a>).</li>
+          <li>Tie-in: CPE's 4 super-repos use the same idea.</li>
+        </ul>
+        <p><strong>Pranay Chandragiri, Soliton Technologies (GDevCon ANZ #3).</strong> Heavy VMs slow LabVIEW CI/CD down; containers fix that.</p>
+        <ul>
+          <li>Containers vs VMs from first principles.</li>
+          <li>NI's official headless LabVIEW images from Docker Hub: mount the VI source and run LabVIEWCLI for Mass Compile, VI Analyzer and unit tests, with no GUI or licensed workstation in the loop.</li>
+          <li>Wired into GitHub Actions: a full CI workflow live in under 15 minutes.</li>
+          <li>Custom images with the project's exact dependencies.</li>
+          <li>Best practice: clean volume mounts, version-controlled images, pipelines that fail fast and report clearly.</li>
+          <li>Pointer: "see Pranay's talk for the container side of this".</li>
+        </ul>
+      </aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://www.youtube.com/watch?v=ULDfoYiwnro">Scott Melin: DevOps and LabVIEW (video)</a>
+        <a href="https://www.youtube.com/watch?v=AU-06R5b85Y">Niko Naredi Rainer: LabVIEW on Azure DevOps (video)</a>
+        <a href="https://www.youtube.com/watch?v=iv7WwDgyb0U">Greg Payne: Git Submodules (video)</a>
+        <a href="https://discord.com/channels/1177504067635908608/1558057302269890571">Pranay Chandragiri: talk channel (GDevCon Discord)</a>
+      </div>
+    </section>
+
+    <!-- ===================== PART 5 · WRAP-UP ===================== -->
+    <section data-act="Part 5 · Wrap-up">
+      <h2>Takeaways: Start Today</h2>
+      <ul class="checklist">
+        <li>Create the repo from a template: <code>.gitignore</code> + <code>.gitattributes</code></li>
+        <li>Separate compiled code from source</li>
+        <li>Point your Git client at LVCompare / LVMerge</li>
+        <li>Protect <code>master</code>: every change through a reviewed PR</li>
+        <li>Branch every change from <code>develop</code>; tag releases <code>vX.Y.Z</code></li>
+      </ul>
+      <p class="cta">Clone it now — link dropped in the <strong>GDevCon ANZ Discord</strong><br><a id="repo-link" href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026</a></p>
+      <aside class="notes"><p><strong>Reflection cue:</strong> What is one thing you could improve in your workflow next week? Pause for thought; no further show of hands is needed.</p><p><strong>Two starting points:</strong> If this is new, begin with a small repository, a useful commit message and a recoverable change. If you already know these tools, improve one review, traceability link or repeatable check. You do not need a new platform to improve a practice.</p><p><strong>Bridge:</strong> Let's use the remaining time for what is unclear, or what you would challenge.</p>Discord drop: post the repo link in the GDevCon ANZ Discord now so people can clone during Q&amp;A.</aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo on GitHub</a>
+        <a href="https://git-scm.com/book/en/v2">Pro Git (free book)</a>
+        <a href="https://learngitbranching.js.org/">Learn Git Branching (interactive)</a>
+        <a href="https://discord.com/channels/1177504067635908608/1558056966465785917">This talk's channel (GDevCon Discord)</a>
+        <a href="https://learn.ni.com/learning-paths/source-code-control">NI: Source Code Control learning path</a>
+      </div>
+    </section>
+
+    <section class="title-slide" data-act="Part 5 · Wrap-up">
+      <div class="split">
+        <div class="split-main">
+          <h2>Questions?</h2>
+          <p class="subtitle">Thank you</p>
+          <p class="speaker">Anoop Nandakumar · CPE Systems NZ</p>
+          <p class="cta small-cta">github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026</p>
+        </div>
+        <div class="brand-logos">
+          <img src="img/cpe-logo.png" alt="CPE Systems NZ">
+          <img src="img/gdevcon-anz.png" alt="GDevCon ANZ">
+        </div>
+      </div>
+      <aside class="notes"><p><strong>Closing invitation:</strong> What have I left unclear — or what would you challenge?</p><p><strong>If someone thinks “I knew all of this; I didn't learn anything”:</strong> Acknowledge their experience. Ask which practice has worked best for their team and invite a concrete improvement or counterexample that others can learn from.</p><p><strong>If someone thinks “That was a lot of words I need clarified”:</strong> Ask which term or step was unclear. Explain it with one small change moving from a work item to a branch, review, test and release. Avoid answering with more unexplained terminology.</p><p><strong>Reassurance:</strong> If this feels like another tool to learn, the goal is not to replace your experience. Keep what works, choose one manageable improvement and use the public notes and Learn more links afterwards.</p><p><strong>Fallback questions:</strong> Is your next obstacle migrating SVN, choosing a client, resolving a VI conflict, or protecting releases? Take one concrete example rather than reopening every topic.</p></aside>
+      <div class="learn-more-links" hidden>
+        <a href="https://github.com/CPE-Systems-NZ-Limited/anoop-gdevcon-anz-2026">Talk repo on GitHub</a>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<nav class="deck-nav" aria-label="Slide navigation">
+  <button type="button" data-action="prev" aria-label="Previous slide" title="Previous (←)">&#8249;</button>
+  <span class="deck-progress" aria-live="polite"><span id="slide-num">1</span> / <span id="slide-total">19</span></span>
+  <button type="button" data-action="next" aria-label="Next slide" title="Next (→ / Space)">&#8250;</button>
+  <button type="button" data-action="overview" aria-label="Slide overview" title="Overview (Esc)" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></button>
+  <button type="button" data-action="notes" aria-label="Open speaker notes in a new window" title="Speaker notes" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 3.5h10M3 8h10M3 12.5h6"/></svg></button>
+  <button type="button" data-action="fullscreen" aria-label="Toggle fullscreen" title="Fullscreen (F)" class="secondary"><svg viewBox="0 0 16 16" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 5.5v-4h4M10.5 1.5h4v4M14.5 10.5v4h-4M5.5 14.5h-4v-4"/></svg></button>
+</nav>
+<div class="act-label" id="act-label"></div>
+<div class="learn-more" id="learn-more" hidden>
+  <button type="button" id="learn-more-btn" aria-expanded="false" aria-controls="learn-more-panel" title="Learn more (L)">Learn more <span aria-hidden="true">&#8599;</span></button>
+  <div class="learn-more-panel" id="learn-more-panel" role="menu" hidden></div>
+</div>
+<img class="cpe-mark" id="cpe-mark" src="img/cpe-logo.png" alt="CPE Systems NZ">
+
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes/notes.js"></script>
+<script src="vendor/mermaid/mermaid.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
